@@ -1,0 +1,15 @@
+mat-card {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.price-original {
+  text-decoration: line-through;
+  color: gray;
+  margin-left: 8px;
+}
+
+.price-sale {
+  color: red;
+  font-weight: bold;
+}

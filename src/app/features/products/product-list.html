@@ -1,0 +1,27 @@
+<!-- src/app/features/products/product-list.html -->
+<form class="filters" (submit)="$event.preventDefault()">
+  <mat-form-field appearance="outline">
+    <mat-label>Titolo</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput type="search" name="title" placeholder="Cerca per titolo"
+      (input)="setTitle(($any($event.target)).value)" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="margin-left:1rem; min-width:220px">
+    <mat-label>Ordina per</mat-label>
+    <mat-select [value]="'dateDesc'" (selectionChange)="setSort($event.value)">
+      <mat-option value="dateDesc">Data (nuovi → vecchi)</mat-option>
+      <mat-option value="dateAsc">Data (vecchi → nuovi)</mat-option>
+      <mat-option value="priceAsc">Prezzo (crescente)</mat-option>
+      <mat-option value="priceDesc">Prezzo (decrescente)</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
+
+<app-http-state-card [state]="httpState$ | async" (retry)="reload()">
+  <ul class="grid">
+    <li *ngFor="let p of filteredProducts$ | async">
+      <app-product-card [product]="p" (add)="onAdd($event)"></app-product-card>
+    </li>
+  </ul>
+</app-http-state-card>

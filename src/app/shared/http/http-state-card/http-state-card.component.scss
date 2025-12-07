@@ -1,0 +1,15 @@
+.http-state-loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.http-state-error {
+    max-width: 400px;
+    margin: 2rem auto;
+    text-align: center;
+
+    p {
+        color: red;
+    }
+}

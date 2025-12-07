@@ -1,0 +1,95 @@
+<div class="checkout-container">
+    <h1>Checkout</h1>
+
+    <section class="cart-summary">
+        <h2>Riepilogo carrello</h2>
+        <ng-container *ngIf="(items$ | async) as items">
+            <div *ngIf="items.length === 0">
+                <p>Il carrello è vuoto. Aggiungi prodotti prima di procedere.</p>
+            </div>
+            <ul *ngIf="items.length > 0">
+                <li *ngFor="let item of items">
+                    {{ item.title }} — {{ item.price | currency : 'EUR' }}
+                </li>
+            </ul>
+            <p class="total" *ngIf="items.length > 0">
+                Totale: <strong>{{ total$ | async | currency : 'EUR' }}</strong>
+            </p>
+        </ng-container>
+    </section>
+
+    <div class="error-summary" *ngIf="showSummary && form.invalid" role="status" aria-live="polite">
+        <p>Il form contiene errori. Controlla i campi evidenziati prima di procedere.</p>
+    </div>
+
+    <div *ngIf="orderSuccess" class="success-message">
+        <h2>Grazie per il tuo ordine!</h2>
+        <p>L'ordine è stato inviato con successo.</p>
+        <button mat-raised-button color="primary" routerLink="/products">Torna allo shop</button>
+    </div>
+
+    <div *ngIf="orderError" class="error-message">
+        <p>Si è verificato un errore durante l'invio dell'ordine. Riprova.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!orderSuccess">
+        <section formGroupName="customer">
+            <h2>Dati cliente</h2>
+            <mat-form-field appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="firstName" />
+                <mat-error *ngIf="hasError('customer.firstName', 'required')">Il nome è obbligatorio.</mat-error>
+                <mat-error *ngIf="hasError('customer.firstName', 'minlength')">Inserisci almeno 2 caratteri.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Cognome</mat-label>
+                <input matInput formControlName="lastName" />
+                <mat-error *ngIf="hasError('customer.lastName', 'required')">Il cognome è obbligatorio.</mat-error>
+                <mat-error *ngIf="hasError('customer.lastName', 'minlength')">Inserisci almeno 2 caratteri.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" />
+                <mat-error *ngIf="hasError('customer.email', 'required')">L'email è obbligatoria.</mat-error>
+                <mat-error *ngIf="hasError('customer.email', 'email')">Inserisci un'email valida.</mat-error>
+            </mat-form-field>
+        </section>
+
+        <section formGroupName="address">
+            <h2>Indirizzo</h2>
+            <mat-form-field appearance="outline">
+                <mat-label>Via</mat-label>
+                <input matInput formControlName="street" />
+                <mat-error *ngIf="hasError('address.street', 'required')">La via è obbligatoria.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Città</mat-label>
+                <input matInput formControlName="city" />
+                <mat-error *ngIf="hasError('address.city', 'required')">La città è obbligatoria.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>CAP</mat-label>
+                <input matInput formControlName="zip" />
+                <mat-error *ngIf="hasError('address.zip', 'required')">Il CAP è obbligatorio.</mat-error>
+                <mat-error *ngIf="hasError('address.zip', 'pattern')">Il CAP deve essere di 5 cifre.</mat-error>
+            </mat-form-field>
+        </section>
+
+        <div class="privacy-check">
+            <mat-checkbox formControlName="privacy">Accetto termini e privacy</mat-checkbox>
+            <mat-error *ngIf="showSummary && getControl('privacy')?.invalid"
+                style="font-size: 0.75rem; margin-top: 5px;">
+                Devi accettare la privacy.
+            </mat-error>
+        </div>
+
+        <button mat-raised-button color="primary" type="submit"
+            [disabled]="loading || ((items$ | async)?.length === 0)">
+            Conferma ordine
+        </button>
+    </form>
+</div>
