@@ -18,8 +18,7 @@ export const routes: Routes = [
   {
     path: 'checkout',
     loadComponent: () =>
-      import('./features/checkout/checkout-page.component').then(m => m.CheckoutPageComponent),
-    canActivate: [(route, state) => import('./core/guards/checkout.guard').then(m => m.checkoutGuard(route, state))]
+      import('./features/checkout/checkout-page.component').then(m => m.CheckoutPageComponent)
   },
   {
     path: '**',

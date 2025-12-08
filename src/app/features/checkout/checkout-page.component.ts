@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf, AsyncPipe, CurrencyPipe, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { OrderService } from '../../core/services/order.service';
 import { Order } from '../../core/models/order';
@@ -20,6 +21,7 @@ import { Product } from '../../core/models/product';
         MatInputModule,
         MatCheckboxModule,
         MatButtonModule,
+        RouterModule,
         NgIf,
         AsyncPipe,
         CurrencyPipe,
@@ -35,7 +37,7 @@ export class CheckoutPageComponent {
 
     readonly items$ = this.cart.list();
     readonly total$ = this.items$.pipe(
-        map(items => items.reduce((sum: number, item: Product) => sum + item.price, 0))
+        map(items => items.reduce((sum: number, item: Product & { quantity?: number }) => sum + item.price * (item.quantity ?? 1), 0))
     );
 
     loading = false;
@@ -87,7 +89,7 @@ export class CheckoutPageComponent {
                 customer: value.customer as any,
                 address: value.address as any,
                 items,
-                total: items.reduce((sum: number, it: Product) => sum + it.price, 0), // Assuming quantity 1 for mock
+                total: items.reduce((sum: number, it: Product & { quantity?: number }) => sum + it.price * (it.quantity ?? 1), 0),
                 createdAt: new Date().toISOString()
             };
 

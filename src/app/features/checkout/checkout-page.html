@@ -79,6 +79,17 @@
             </mat-form-field>
         </section>
 
+        <section>
+            <h2>Spedizione</h2>
+            <mat-form-field appearance="outline">
+                <mat-label>Metodo di spedizione</mat-label>
+                <select matNativeControl formControlName="shippingMethod">
+                    <option value="standard">Standard</option>
+                    <option value="express">Express</option>
+                </select>
+            </mat-form-field>
+        </section>
+
         <div class="privacy-check">
             <mat-checkbox formControlName="privacy">Accetto termini e privacy</mat-checkbox>
             <mat-error *ngIf="showSummary && getControl('privacy')?.invalid"
@@ -88,7 +99,7 @@
         </div>
 
         <button mat-raised-button color="primary" type="submit"
-            [disabled]="loading || ((items$ | async)?.length === 0)">
+            [disabled]="form.invalid || loading || !((items$ | async)?.length)">
             Conferma ordine
         </button>
     </form>
