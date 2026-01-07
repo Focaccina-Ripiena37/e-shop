@@ -782,13 +782,13 @@ export class ProductsManagement implements OnInit {
     }
 
     this.tagService.create(name).subscribe({
-      next: (newTag) => {
+      next: (newTag: Tag) => {
         this.tagsRefresh$.next();
         this.selectedTagIds = [...this.selectedTagIds, newTag.id];
         this.newTagName = '';
         this.notify.success(`Tag "${name}" created successfully!`);
       },
-      error: (err) => {
+      error: (err: any) => {
         const errorMsg = err.error?.errors?.join(', ') || err.error?.error || err.message || 'Unknown error';
         this.notify.error(`Failed to create tag: ${errorMsg}`);
         console.error('Create tag error:', err);
