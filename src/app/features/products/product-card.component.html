@@ -1,19 +1,39 @@
-<mat-card appearance="outlined">
-  <img mat-card-image [src]="product.thumbnail" [alt]="product.title" />
+<!-- Product card with image, pricing, tags and actions -->
+<mat-card appearance="outlined" class="product-card">
+  <!-- Image with sale badge -->
+  <div class="image-container">
+    <img mat-card-image [src]="product.thumbnail" [alt]="product.title" />
+    <span *ngIf="product.sale" class="sale-badge">-{{ discountPercentage }}%</span>
+  </div>
+
   <mat-card-header>
-    <mat-card-title>{{ product.title }}</mat-card-title>
-    <mat-card-subtitle>{{ product.price | currency : 'EUR' }}</mat-card-subtitle>
+    <mat-card-title class="product-title">{{ product.title }}</mat-card-title>
+
+    <!-- Price section -->
+    <mat-card-subtitle class="price-container">
+      <ng-container *ngIf="product.sale; else regularPrice">
+        <span class="original-price">{{ product.originalPrice | currency : 'EUR' }}</span>
+        <span class="sale-price">{{ product.price | currency : 'EUR' }}</span>
+      </ng-container>
+      <ng-template #regularPrice>
+        <span class="regular-price">{{ product.price | currency : 'EUR' }}</span>
+      </ng-template>
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content>
+    <!-- Tags display -->
+    <div class="tags-container" *ngIf="product.tags?.length">
+      <span class="tag-chip" *ngFor="let tag of product.tags">{{ tag.name }}</span>
+    </div>
     <ng-content></ng-content>
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button mat-button [routerLink]="['/products', product.id]">Dettagli</button>
+    <button mat-button [routerLink]="['/products', product.id]">Details</button>
     <button mat-flat-button color="primary" (click)="add.emit(product)">
       <mat-icon aria-hidden="true">add_shopping_cart</mat-icon>
-      Aggiungi
+      Add
     </button>
   </mat-card-actions>
 </mat-card>

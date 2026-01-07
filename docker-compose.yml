@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: eshop-db
+    environment:
+      POSTGRES_USER: eshop
+      POSTGRES_PASSWORD: eshop_password
+      POSTGRES_DB: eshop_development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eshop"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Ruby on Rails Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eshop-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://eshop:eshop_password@db:5432/eshop_development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-your-secret-key-here}
+    volumes:
+      - ./backend:/app
+      - backend_bundle:/usr/local/bundle
+    ports:
+      - "3001:3001"
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails db:prepare && bundle exec rails s -p 3001 -b '0.0.0.0'"
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: eshop-frontend
+    depends_on:
+      - backend
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start -- --host 0.0.0.0 --disable-host-check
+
+volumes:
+  postgres_data:
+  backend_bundle:
+  node_modules:
+
+networks:
+  default:
+    name: eshop-network

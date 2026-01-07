@@ -1,0 +1,65 @@
+<div class="orders-container">
+  <h1>My orders</h1>
+
+  <ng-container *ngIf="orders$ | async as orders; else loading">
+    <p *ngIf="!orders.length">No orders yet.</p>
+
+    <div *ngIf="orders.length" class="orders-table-container">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th 
+              class="sortable" 
+              (click)="toggleSort('id')"
+              [attr.aria-label]="'Sort by ID'">
+              ID {{ getSortIcon('id', (sortField$ | async)!, (sortDirection$ | async)!) }}
+            </th>
+            <th 
+              class="sortable" 
+              (click)="toggleSort('date')"
+              [attr.aria-label]="'Sort by Date'">
+              Date {{ getSortIcon('date', (sortField$ | async)!, (sortDirection$ | async)!) }}
+            </th>
+            <th 
+              class="sortable" 
+              (click)="toggleSort('total')"
+              [attr.aria-label]="'Sort by Total'">
+              Total {{ getSortIcon('total', (sortField$ | async)!, (sortDirection$ | async)!) }}
+            </th>
+            <th>Shipping</th>
+            <th 
+              class="sortable" 
+              (click)="toggleSort('status')"
+              [attr.aria-label]="'Sort by Status'">
+              Status {{ getSortIcon('status', (sortField$ | async)!, (sortDirection$ | async)!) }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>
+              <a [routerLink]="['/orders', order.id]" class="order-link">#{{ order.id }}</a>
+            </td>
+            <td>{{ order.createdAt | date:'short' }}</td>
+            <td>{{ order.total | currency:'EUR' }}</td>
+            <td>
+              <span class="shipping-badge" *ngIf="order.shipping_type">
+                {{ order.shipping_type === 'premium' ? 'Premium' : 'Standard' }}
+              </span>
+              <span *ngIf="!order.shipping_type">-</span>
+            </td>
+            <td>
+              <span class="status-badge" [class]="'status-' + order.status">
+                {{ order.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <p>Loading orders...</p>
+  </ng-template>
+</div>

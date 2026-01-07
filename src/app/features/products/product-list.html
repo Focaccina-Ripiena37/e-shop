@@ -1,27 +1,104 @@
-<!-- src/app/features/products/product-list.html -->
-<form class="filters" (submit)="$event.preventDefault()">
-  <mat-form-field appearance="outline">
-    <mat-label>Titolo</mat-label>
+<!-- ==========================================================================
+     PRODUCT LIST TEMPLATE
+     ==========================================================================
+     STRUCTURE:
+     1. Filters bar with search and Filters button
+     2. Filters dropdown menu (sorting + category + tags)
+     3. Responsive product grid (Amazon style)
+     ========================================================================== -->
+
+<!-- FILTERS BAR -->
+<div class="filters-bar">
+  <!-- Search field -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search</mat-label>
     <mat-icon matPrefix>search</mat-icon>
-    <input matInput type="search" name="title" placeholder="Cerca per titolo"
-      (input)="setTitle(($any($event.target)).value)" />
+    <input matInput type="search" placeholder="Search by title..."
+           (input)="setTitle(($any($event.target)).value)" />
   </mat-form-field>
 
-  <mat-form-field appearance="outline" style="margin-left:1rem; min-width:220px">
-    <mat-label>Ordina per</mat-label>
-    <mat-select [value]="'dateDesc'" (selectionChange)="setSort($event.value)">
-      <mat-option value="dateDesc">Data (nuovi → vecchi)</mat-option>
-      <mat-option value="dateAsc">Data (vecchi → nuovi)</mat-option>
-      <mat-option value="priceAsc">Prezzo (crescente)</mat-option>
-      <mat-option value="priceDesc">Prezzo (decrescente)</mat-option>
-    </mat-select>
-  </mat-form-field>
-</form>
+  <!-- Filters button with dropdown menu -->
+  <button mat-stroked-button [matMenuTriggerFor]="filtersMenu" class="filters-button">
+    <mat-icon>filter_list</mat-icon>
+    <span>Filters</span>
+    <!-- Badge with active filters count -->
+    <span *ngIf="activeFiltersCount > 0" class="active-filters-badge">
+      {{ activeFiltersCount }}
+    </span>
+  </button>
 
+  <!-- Filters dropdown menu -->
+  <mat-menu #filtersMenu="matMenu" class="filters-menu">
+    <!-- SECTION: Sort -->
+    <div class="filter-section" (click)="$event.stopPropagation()">
+      <span class="filter-section-title">Sort by</span>
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-select [value]="'dateDesc'" (selectionChange)="setSort($event.value)">
+          <mat-option value="dateDesc">Date (newest first)</mat-option>
+          <mat-option value="dateAsc">Date (oldest first)</mat-option>
+          <mat-option value="priceAsc">Price (low to high)</mat-option>
+          <mat-option value="priceDesc">Price (high to low)</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- SECTION: Category (single select dropdown) -->
+    <div class="filter-section" (click)="$event.stopPropagation()">
+      <span class="filter-section-title">Category</span>
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-select [value]="selectedCategoryId" (selectionChange)="setCategory($event.value)">
+          <mat-option value="">All Categories</mat-option>
+          <mat-option *ngFor="let cat of categories$ | async" [value]="cat.id">
+            {{ cat.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- SECTION: Tags (multi select checkboxes) -->
+    <div class="filter-section" (click)="$event.stopPropagation()">
+      <span class="filter-section-title">Tags</span>
+      <div class="category-list">
+        <!-- Checkbox for each available tag -->
+        <mat-checkbox *ngFor="let tag of tags$ | async"
+                      [checked]="isTagSelected(tag.id)"
+                      (change)="toggleTag(tag.id)">
+          {{ tag.name | titlecase }}
+        </mat-checkbox>
+      </div>
+
+      <!-- Clear filters button -->
+      <button *ngIf="activeFiltersCount > 0"
+              mat-button color="primary"
+              (click)="clearFilters()"
+              style="margin-top: 0.5rem">
+        Clear filters
+      </button>
+    </div>
+  </mat-menu>
+</div>
+
+<!-- PRODUCTS CONTAINER with HTTP state handling -->
 <app-http-state-card [state]="httpState$ | async" (retry)="reload()">
-  <ul class="grid">
+  <!-- Products grid -->
+  <ul class="products-grid" *ngIf="(filteredProducts$ | async)?.length; else noProducts">
     <li *ngFor="let p of filteredProducts$ | async">
       <app-product-card [product]="p" (add)="onAdd($event)"></app-product-card>
     </li>
   </ul>
+
+  <!-- Message when no products found -->
+  <ng-template #noProducts>
+    <div class="no-products">
+      <mat-icon>inventory_2</mat-icon>
+      <p>No products found matching your filters.</p>
+      <button mat-stroked-button (click)="clearFilters()">
+        Clear filters
+      </button>
+    </div>
+  </ng-template>
 </app-http-state-card>

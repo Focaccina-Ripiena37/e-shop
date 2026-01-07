@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <section style="padding:2rem; text-align:center">
-      <h2>404 — Pagina non trovata</h2>
-      <p>La risorsa richiesta non esiste.</p>
-      <a routerLink="/products">Torna ai prodotti</a>
+      <h2>404 — Page not found</h2>
+      <p>The requested resource does not exist.</p>
+      <a routerLink="/products">Back to products</a>
     </section>
   `
 })

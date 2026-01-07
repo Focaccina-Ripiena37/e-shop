@@ -1,0 +1,138 @@
+<div class="signup-container">
+  <mat-card class="signup-card">
+    <mat-card-header>
+      <mat-card-title>Sign up</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <h3 class="section-title">Account Information</h3>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-error *ngIf="hasError('email', 'required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="hasError('email', 'email')">
+            Invalid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-error *ngIf="hasError('password', 'required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="hasError('password', 'minlength')">
+            Minimum 6 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm password</mat-label>
+          <input matInput type="password" formControlName="password_confirmation" />
+          <mat-error *ngIf="hasError('password_confirmation', 'required')">
+            Password confirmation is required
+          </mat-error>
+        </mat-form-field>
+
+        <div class="error-message" *ngIf="hasFormError('passwordMismatch')">
+          Passwords do not match
+        </div>
+
+        <h3 class="section-title">Personal Information</h3>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" />
+            <mat-error *ngIf="hasError('first_name', 'required')">
+              First name is required
+            </mat-error>
+            <mat-error *ngIf="hasError('first_name', 'minlength')">
+              Minimum 2 characters
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" />
+            <mat-error *ngIf="hasError('last_name', 'required')">
+              Last name is required
+            </mat-error>
+            <mat-error *ngIf="hasError('last_name', 'minlength')">
+              Minimum 2 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date_of_birth" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="">Prefer not to say</mat-option>
+              <mat-option value="male">Male</mat-option>
+              <mat-option value="female">Female</mat-option>
+              <mat-option value="other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <h3 class="section-title">Address (Optional)</h3>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Street Address</mat-label>
+          <input matInput formControlName="street" />
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>ZIP Code</mat-label>
+            <input matInput formControlName="zip" />
+            <mat-error *ngIf="hasError('zip', 'pattern')">
+              Invalid ZIP code format
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Country</mat-label>
+          <input matInput formControlName="country" />
+        </mat-form-field>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="loading || signupForm.invalid"
+          class="full-width submit-btn"
+        >
+          <span *ngIf="!loading">Sign up</span>
+          <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        </button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a routerLink="/login">Login</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

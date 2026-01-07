@@ -1,19 +1,5 @@
 <!-- src/app/app.html -->
-<mat-toolbar color="primary" class="app-toolbar">
-  <button mat-icon-button aria-label="Apri menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span class="app-title" routerLink="/" style="cursor:pointer">Shop</span>
-  <span class="spacer" style="flex: 1 1 auto;"></span>
-
-  <button mat-icon-button routerLink="/checkout" aria-label="Vai alla cassa">
-    <mat-icon>shopping_cart</mat-icon>
-  </button>
-
-  <button mat-button (click)="toggleLogin()">
-    {{ auth.isLoggedIn ? 'Logout' : 'Login' }}
-  </button>
-</mat-toolbar>
+<app-header title="Shop"></app-header>
 
 <main class="app-main">
   <section class="app-content">

@@ -1,0 +1,72 @@
+<div class="order-detail" *ngIf="order$ | async as order; else loading">
+  <h1>Order #{{ order.id }}</h1>
+  <p class="meta">{{ order.createdAt | date:'medium' }} · {{ order.status }}</p>
+
+  <section class="block">
+    <h2>Customer</h2>
+    <p>{{ order.customer.firstName }} {{ order.customer.lastName }}</p>
+    <p>{{ order.customer.email }}</p>
+  </section>
+
+  <section class="block">
+    <h2>Shipping address</h2>
+    <p>{{ order.address.street }}</p>
+    <p>{{ order.address.city }} {{ order.address.zip }}</p>
+  </section>
+
+  <section class="block" *ngIf="order.billing_address">
+    <h2>Billing address</h2>
+    <p>{{ order.billing_address.full_name }}</p>
+    <p>{{ order.billing_address.street }}</p>
+    <p>{{ order.billing_address.city }} {{ order.billing_address.zip }}</p>
+    <p>{{ order.billing_address.country }}</p>
+    <p *ngIf="order.billing_address.vat_number">VAT: {{ order.billing_address.vat_number }}</p>
+  </section>
+
+  <section class="block" *ngIf="order.payment_method">
+    <h2>Payment information</h2>
+    <p>Method: {{ order.payment_method }}</p>
+    <p *ngIf="order.card_brand && order.card_last4">
+      Card: {{ order.card_brand }} **** {{ order.card_last4 }}
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>Items</h2>
+    <div *ngIf="order.items?.length; else empty">
+      <div class="item" *ngFor="let item of order.items">
+        <div>
+          <div class="title">{{ item.product.title }}</div>
+          <div class="qty">Quantity: {{ item.quantity }}</div>
+        </div>
+        <div class="price">{{ item.unit_price | currency:'EUR' }}</div>
+        <div class="subtotal">{{ (item.unit_price * item.quantity) | currency:'EUR' }}</div>
+      </div>
+    </div>
+    <ng-template #empty>
+      <p>No items.</p>
+    </ng-template>
+  </section>
+
+  <section class="block total">
+    <h2>Order Summary</h2>
+    <div class="summary-line" *ngIf="order.shipping_type">
+      <span>Shipping Method:</span>
+      <span>{{ order.shipping_type === 'premium' ? 'Premium Shipping' : 'Standard Shipping' }}</span>
+    </div>
+    <div class="summary-line" *ngIf="order.shipping_cost">
+      <span>Shipping Cost:</span>
+      <span>{{ order.shipping_cost | currency:'EUR' }}</span>
+    </div>
+    <div class="summary-line total-line">
+      <span>Total:</span>
+      <span class="amount">{{ order.total | currency:'EUR' }}</span>
+    </div>
+  </section>
+
+  <a routerLink="/orders" class="back">Back to my orders</a>
+</div>
+
+<ng-template #loading>
+  <p>Loading order...</p>
+</ng-template>

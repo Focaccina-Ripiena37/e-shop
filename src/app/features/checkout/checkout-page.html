@@ -2,105 +2,227 @@
     <h1>Checkout</h1>
 
     <section class="cart-summary">
-        <h2>Riepilogo carrello</h2>
+        <!-- Cart summary with inline totals -->
+        <h2>Cart summary</h2>
         <ng-container *ngIf="(items$ | async) as items">
             <div *ngIf="items.length === 0">
-                <p>Il carrello è vuoto. Aggiungi prodotti prima di procedere.</p>
+                <p>Your cart is empty. Add products before proceeding.</p>
             </div>
             <ul *ngIf="items.length > 0">
                 <li *ngFor="let item of items">
-                    {{ item.title }} — {{ item.price | currency : 'EUR' }}
+                    {{ item.product.title }} (x{{ item.quantity }}) — {{ item.unit_price | currency : 'EUR' }}
                 </li>
             </ul>
-            <p class="total" *ngIf="items.length > 0">
-                Totale: <strong>{{ total$ | async | currency : 'EUR' }}</strong>
-            </p>
+            <div *ngIf="items.length > 0" class="totals">
+                <p class="subtotal">
+                    Subtotal: <strong>{{ subtotal$ | async | currency : 'EUR' }}</strong>
+                </p>
+                <p class="shipping">
+                    Shipping: <strong>{{ shippingCost$ | async | currency : 'EUR' }}</strong>
+                </p>
+                <p class="total">
+                    Total: <strong>{{ total$ | async | currency : 'EUR' }}</strong>
+                </p>
+            </div>
         </ng-container>
     </section>
 
+    <!-- Validation summary shown on submit -->
     <div class="error-summary" *ngIf="showSummary && form.invalid" role="status" aria-live="polite">
-        <p>Il form contiene errori. Controlla i campi evidenziati prima di procedere.</p>
+        <p>The form contains errors. Check the highlighted fields before continuing.</p>
     </div>
 
+    <!-- Success and error messages -->
     <div *ngIf="orderSuccess" class="success-message">
-        <h2>Grazie per il tuo ordine!</h2>
-        <p>L'ordine è stato inviato con successo.</p>
-        <button mat-raised-button color="primary" routerLink="/products">Torna allo shop</button>
+        <h2>Thanks for your order!</h2>
+        <p *ngIf="createdOrderId; else successNoId">Order created successfully. Order number: #{{ createdOrderId }}</p>
+        <ng-template #successNoId><p>Order created successfully.</p></ng-template>
+        <div class="success-actions">
+            <button mat-raised-button color="primary" routerLink="/orders">Go to my orders</button>
+            <button mat-button routerLink="/products">Continue shopping</button>
+        </div>
     </div>
 
     <div *ngIf="orderError" class="error-message">
-        <p>Si è verificato un errore durante l'invio dell'ordine. Riprova.</p>
+        <p>There was an error submitting the order. Please try again.</p>
     </div>
 
+    <!-- Checkout form -->
     <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="!orderSuccess">
         <section formGroupName="customer">
-            <h2>Dati cliente</h2>
+            <h2>Customer details</h2>
             <mat-form-field appearance="outline">
                 <mat-label>Nome</mat-label>
                 <input matInput formControlName="firstName" />
-                <mat-error *ngIf="hasError('customer.firstName', 'required')">Il nome è obbligatorio.</mat-error>
-                <mat-error *ngIf="hasError('customer.firstName', 'minlength')">Inserisci almeno 2 caratteri.</mat-error>
+                <mat-error *ngIf="hasError('customer.firstName', 'required')">First name is required.</mat-error>
+                <mat-error *ngIf="hasError('customer.firstName', 'minlength')">Enter at least 2 characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Cognome</mat-label>
                 <input matInput formControlName="lastName" />
-                <mat-error *ngIf="hasError('customer.lastName', 'required')">Il cognome è obbligatorio.</mat-error>
-                <mat-error *ngIf="hasError('customer.lastName', 'minlength')">Inserisci almeno 2 caratteri.</mat-error>
+                <mat-error *ngIf="hasError('customer.lastName', 'required')">Last name is required.</mat-error>
+                <mat-error *ngIf="hasError('customer.lastName', 'minlength')">Enter at least 2 characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" type="email" />
-                <mat-error *ngIf="hasError('customer.email', 'required')">L'email è obbligatoria.</mat-error>
-                <mat-error *ngIf="hasError('customer.email', 'email')">Inserisci un'email valida.</mat-error>
+                <mat-error *ngIf="hasError('customer.email', 'required')">Email is required.</mat-error>
+                <mat-error *ngIf="hasError('customer.email', 'email')">Enter a valid email.</mat-error>
             </mat-form-field>
         </section>
 
         <section formGroupName="address">
-            <h2>Indirizzo</h2>
+            <h2>Shipping Address</h2>
             <mat-form-field appearance="outline">
-                <mat-label>Via</mat-label>
+                <mat-label>Street</mat-label>
                 <input matInput formControlName="street" />
-                <mat-error *ngIf="hasError('address.street', 'required')">La via è obbligatoria.</mat-error>
+                <mat-error *ngIf="hasError('address.street', 'required')">Street is required.</mat-error>
+                <mat-error *ngIf="hasError('address.street', 'minlength')">Enter at least 5 characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Città</mat-label>
+                <mat-label>City</mat-label>
                 <input matInput formControlName="city" />
-                <mat-error *ngIf="hasError('address.city', 'required')">La città è obbligatoria.</mat-error>
+                <mat-error *ngIf="hasError('address.city', 'required')">City is required.</mat-error>
+                <mat-error *ngIf="hasError('address.city', 'minlength')">Enter at least 2 characters.</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>CAP</mat-label>
+                <mat-label>ZIP code</mat-label>
                 <input matInput formControlName="zip" />
-                <mat-error *ngIf="hasError('address.zip', 'required')">Il CAP è obbligatorio.</mat-error>
-                <mat-error *ngIf="hasError('address.zip', 'pattern')">Il CAP deve essere di 5 cifre.</mat-error>
+                <mat-error *ngIf="hasError('address.zip', 'required')">ZIP code is required.</mat-error>
+                <mat-error *ngIf="hasError('address.zip', 'pattern')">ZIP code must be 5 digits.</mat-error>
             </mat-form-field>
+        </section>
+
+        <section formGroupName="billing">
+            <h2>Billing Address</h2>
+            
+            <mat-checkbox formControlName="sameAsShipping" style="margin-bottom: 1rem;">
+                Same as shipping address
+            </mat-checkbox>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="fullName" />
+                <mat-error *ngIf="hasError('billing.fullName', 'required')">Full name is required.</mat-error>
+                <mat-error *ngIf="hasError('billing.fullName', 'minlength')">Enter at least 3 characters.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Street</mat-label>
+                <input matInput formControlName="street" />
+                <mat-error *ngIf="hasError('billing.street', 'required')">Street is required.</mat-error>
+                <mat-error *ngIf="hasError('billing.street', 'minlength')">Enter at least 5 characters.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city" />
+                <mat-error *ngIf="hasError('billing.city', 'required')">City is required.</mat-error>
+                <mat-error *ngIf="hasError('billing.city', 'minlength')">Enter at least 2 characters.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>ZIP / Postal Code</mat-label>
+                <input matInput formControlName="zip" />
+                <mat-error *ngIf="hasError('billing.zip', 'required')">ZIP is required.</mat-error>
+                <mat-error *ngIf="hasError('billing.zip', 'pattern')">Enter valid postal code.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Country</mat-label>
+                <input matInput formControlName="country" placeholder="IT" />
+                <mat-error *ngIf="hasError('billing.country', 'required')">Country is required.</mat-error>
+                <mat-error *ngIf="hasError('billing.country', 'minlength')">Enter at least 2 characters.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>VAT Number (optional)</mat-label>
+                <input matInput formControlName="vatNumber" placeholder="IT12345678901" />
+                <mat-error *ngIf="hasError('billing.vatNumber', 'pattern')">Enter valid VAT format (8-15 alphanumeric).</mat-error>
+            </mat-form-field>
+        </section>
+
+        <section formGroupName="payment">
+            <h2>Payment Information</h2>
+            
+            <mat-form-field appearance="outline">
+                <mat-label>Payment Method</mat-label>
+                <mat-select formControlName="method">
+                    <mat-option value="credit_card">Credit Card</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('payment.method', 'required')">Payment method is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Card Holder Name</mat-label>
+                <input matInput formControlName="cardHolder" />
+                <mat-error *ngIf="hasError('payment.cardHolder', 'required')">Card holder name is required.</mat-error>
+                <mat-error *ngIf="hasError('payment.cardHolder', 'minlength')">Enter at least 3 characters.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Card Brand</mat-label>
+                <mat-select formControlName="cardBrand">
+                    <mat-option value="Visa">Visa</mat-option>
+                    <mat-option value="Mastercard">Mastercard</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('payment.cardBrand', 'required')">Card brand is required.</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Card Number</mat-label>
+                <input matInput formControlName="cardNumber" placeholder="1234567812345678" type="text" maxlength="16" />
+                <mat-error *ngIf="hasError('payment.cardNumber', 'required')">Card number is required.</mat-error>
+                <mat-error *ngIf="hasError('payment.cardNumber', 'pattern')">Card number must be 16 digits.</mat-error>
+                <mat-hint>Only last 4 digits will be stored</mat-hint>
+            </mat-form-field>
+
+            <div style="display: flex; gap: 1rem;">
+                <mat-form-field appearance="outline" style="flex: 1;">
+                    <mat-label>Expiry Date</mat-label>
+                    <input matInput formControlName="expiryDate" placeholder="MM/YY" type="text" maxlength="5" />
+                    <mat-error *ngIf="hasError('payment.expiryDate', 'required')">Expiry date is required.</mat-error>
+                    <mat-error *ngIf="hasError('payment.expiryDate', 'pattern')">Format: MM/YY</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="flex: 1;">
+                    <mat-label>CVV</mat-label>
+                    <input matInput formControlName="cvv" placeholder="123" type="text" maxlength="4" />
+                    <mat-error *ngIf="hasError('payment.cvv', 'required')">CVV is required.</mat-error>
+                    <mat-error *ngIf="hasError('payment.cvv', 'pattern')">CVV must be 3-4 digits.</mat-error>
+                </mat-form-field>
+            </div>
         </section>
 
         <section>
-            <h2>Spedizione</h2>
+            <h2>Shipping</h2>
             <mat-form-field appearance="outline">
-                <mat-label>Metodo di spedizione</mat-label>
-                <select matNativeControl formControlName="shippingMethod">
-                    <option value="standard">Standard</option>
-                    <option value="express">Express</option>
-                </select>
+                <mat-label>Shipping method</mat-label>
+                <mat-select formControlName="shippingMethod">
+                    <mat-option value="standard">Standard Shipping (+€3.99)</mat-option>
+                    <mat-option value="premium">Premium Shipping (+€9.99)</mat-option>
+                </mat-select>
             </mat-form-field>
+            <p class="shipping-info">
+                <strong>Selected:</strong> {{ form.get('shippingMethod')?.value === 'premium' ? 'Premium Shipping (+€9.99)' : 'Standard Shipping (+€3.99)' }}
+            </p>
         </section>
 
         <div class="privacy-check">
-            <mat-checkbox formControlName="privacy">Accetto termini e privacy</mat-checkbox>
+            <mat-checkbox formControlName="privacy">I accept terms and privacy</mat-checkbox>
             <mat-error *ngIf="showSummary && getControl('privacy')?.invalid"
                 style="font-size: 0.75rem; margin-top: 5px;">
-                Devi accettare la privacy.
+                You must accept the privacy policy.
             </mat-error>
         </div>
 
         <button mat-raised-button color="primary" type="submit"
             [disabled]="form.invalid || loading || !((items$ | async)?.length)">
-            Conferma ordine
+            Place order
         </button>
     </form>
 </div>

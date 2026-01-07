@@ -1,0 +1,154 @@
+// Layout wrapper for the cart page
+.cart-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  h1 {
+    margin-bottom: 2rem;
+    color: var(--mat-sys-on-surface);
+  }
+
+  // Empty state styles
+  .empty-cart {
+    text-align: center;
+    padding: 4rem 0;
+    color: var(--mat-sys-on-surface-variant);
+    
+    a {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  // List of cart line items
+  .cart-items {
+    margin-bottom: 2rem;
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--mat-sys-outline-variant);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background: var(--mat-sys-surface);
+      transition: box-shadow 0.2s;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .item-info {
+        flex: 1;
+        
+        h3 {
+          margin: 0 0 0.5rem 0;
+          color: var(--mat-sys-on-surface);
+        }
+        
+        .price {
+          color: var(--mat-sys-on-surface-variant);
+        }
+      }
+
+      // Inline +/- controls for quantity
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        button {
+          padding: 0.5rem 1rem;
+          border: 1px solid var(--mat-sys-outline);
+          background: var(--mat-sys-surface-container);
+          color: var(--mat-sys-on-surface);
+          cursor: pointer;
+          border-radius: 4px;
+          transition: background-color 0.2s;
+          
+          &:hover {
+            background: var(--mat-sys-surface-container-high);
+          }
+        }
+
+        span {
+          color: var(--mat-sys-on-surface);
+          font-weight: 500;
+        }
+      }
+
+      // Per-item total and remove action
+      .item-total {
+        text-align: right;
+        
+        p {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: var(--mat-sys-on-surface);
+        }
+
+        .remove-btn {
+          padding: 0.5rem 1rem;
+          background: #f44336;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.2s;
+          
+          &:hover {
+            background: #d32f2f;
+          }
+        }
+      }
+    }
+  }
+
+  // Order summary and checkout CTA
+  .cart-summary {
+    text-align: right;
+    padding: 1.5rem;
+    background: var(--mat-sys-surface-container);
+    border-radius: 8px;
+    border: 1px solid var(--mat-sys-outline-variant);
+
+    h2 {
+      margin-bottom: 1rem;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .checkout-btn {
+      padding: 1rem 2rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      
+      &:hover {
+        background: #45a049;
+      }
+    }
+  }
+}

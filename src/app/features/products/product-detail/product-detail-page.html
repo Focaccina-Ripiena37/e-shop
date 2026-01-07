@@ -1,27 +1,93 @@
 <ng-container *ngIf="product$ | async as product">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ product.title }}</mat-card-title>
-      <mat-card-subtitle>
-        <span *ngIf="product.sale" class="price-sale">
-          {{ product.price | currency : 'EUR' }}
-        </span>
-        <span *ngIf="!product.sale">
-          {{ product.price | currency : 'EUR' }}
-        </span>
-        <span *ngIf="product.sale" class="price-original">
-          {{ product.originalPrice | currency : 'EUR' }}
-        </span>
-      </mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image [src]="product.thumbnail" [alt]="product.title" />
-    <mat-card-content>
-      <p>{{ product.description }}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" routerLink="/products">
-        Torna al catalogo
+  <div class="product-detail-container">
+    <!-- Back button outside card -->
+    <button class="back-button" mat-button routerLink="/products">
+      <mat-icon>arrow_back</mat-icon>
+      Back to catalog
+    </button>
+
+    <!-- Main product card -->
+    <mat-card class="product-main-card">
+      <!-- Image Gallery -->
+      <div class="gallery-section">
+        <div class="main-image-container">
+          <img
+            class="main-image"
+            [src]="getGalleryImages(product)[selectedImageIndex] || product.thumbnail"
+            [alt]="product.title"
+          />
+        </div>
+        <div class="gallery-thumbnails" *ngIf="getGalleryImages(product).length > 1">
+          <button
+            *ngFor="let img of getGalleryImages(product); let i = index"
+            class="thumbnail-btn"
+            [class.active]="selectedImageIndex === i"
+            (click)="selectImage(i)"
+          >
+            <img [src]="img" [alt]="product.title + ' image ' + (i + 1)" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Product Info Header -->
+      <mat-card-header class="product-header">
+        <div class="header-content">
+          <mat-card-title>{{ product.title }}</mat-card-title>
+          <div class="price-block">
+            <span class="current-price">{{ product.price | currency : 'EUR' }}</span>
+            <span *ngIf="product.sale" class="original-price">
+              {{ product.originalPrice | currency : 'EUR' }}
+            </span>
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="description">{{ product.description }}</p>
+
+        <!-- Category badge -->
+        <div class="category-section" *ngIf="product.category">
+          <span class="category-badge">{{ product.category.name }}</span>
+        </div>
+
+        <!-- Tags -->
+        <div class="tags-section" *ngIf="product.tags?.length">
+          <mat-chip-set>
+            <mat-chip *ngFor="let tag of product.tags">{{ tag.name }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+
+      <!-- Add to cart FAB in bottom-right corner -->
+      <button
+        class="add-to-cart-btn"
+        mat-fab
+        color="accent"
+        (click)="addToCart(product.id)"
+        aria-label="Add to cart"
+      >
+        <mat-icon>add_shopping_cart</mat-icon>
       </button>
-    </mat-card-actions>
-  </mat-card>
+    </mat-card>
+
+    <!-- Suggested Products Section -->
+    <section class="suggested-section" *ngIf="(suggestedProducts$ | async) as suggested">
+      <ng-container *ngIf="suggested.length > 0">
+        <h2 class="suggested-title">You might also like</h2>
+        <div class="suggested-grid">
+          <mat-card
+            *ngFor="let sp of suggested"
+            class="suggested-card"
+            [routerLink]="['/products', sp.id]"
+          >
+            <img mat-card-image [src]="sp.thumbnail" [alt]="sp.title" />
+            <mat-card-content>
+              <h3 class="suggested-product-title">{{ sp.title }}</h3>
+              <p class="suggested-price">{{ sp.price | currency : 'EUR' }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </section>
+  </div>
 </ng-container>

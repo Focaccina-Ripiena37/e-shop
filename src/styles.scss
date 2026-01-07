@@ -1,11 +1,7 @@
-
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+// Angular Material Theme - Light/Dark Mode
 @use '@angular/material' as mat;
 
+// Base theme (light)
 html {
   @include mat.theme((
     color: (
@@ -17,23 +13,92 @@ html {
   ));
 }
 
+// Light mode body styles with blue accent
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
+  background-color: #f0f4f8;
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  // Light mode CSS variables override for blue tones
+  --mat-sys-surface: #ffffff;
+  --mat-sys-surface-container: #f5f8fc;
+  --mat-sys-surface-container-low: #f0f4f8;
+  --mat-sys-surface-container-high: #e8eef5;
+  --mat-sys-surface-container-highest: #dfe6ef;
+  --mat-sys-on-surface: #1a2b3c;
+  --mat-sys-on-surface-variant: #4a5568;
+  --mat-sys-outline: #94a3b8;
+  --mat-sys-outline-variant: #cbd5e1;
+  --mat-sys-primary: #1976d2;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #e3f2fd;
+  --mat-sys-on-primary-container: #0d47a1;
+
+  // Tooltip styling for light mode (dark tooltip on light background)
+  --mdc-plain-tooltip-container-color: #333333;
+  --mdc-plain-tooltip-supporting-text-color: #ffffff;
 }
-/* You can add global styles to this file, and also import other style files */
+
+// Dark mode overrides
+body.dark-theme {
+  color-scheme: dark;
+  background-color: #121212;
+
+  --mat-sys-surface: #121212;
+  --mat-sys-surface-container: #1e1e1e;
+  --mat-sys-surface-container-low: #1a1a1a;
+  --mat-sys-surface-container-high: #2d2d2d;
+  --mat-sys-surface-container-highest: #3d3d3d;
+  --mat-sys-surface-bright: #3d3d3d;
+  --mat-sys-surface-dim: #121212;
+  --mat-sys-on-surface: #e0e0e0;
+  --mat-sys-on-surface-variant: #bdbdbd;
+  --mat-sys-primary: #90caf9;
+  --mat-sys-on-primary: #003258;
+  --mat-sys-primary-container: #004880;
+  --mat-sys-on-primary-container: #cce5ff;
+  --mat-sys-secondary: #b0bec5;
+  --mat-sys-on-secondary: #263238;
+  --mat-sys-outline: #616161;
+  --mat-sys-outline-variant: #424242;
+  --mat-sys-error: #ef5350;
+  --mat-sys-on-error: #fff;
+  --mat-sys-surface-tint: #90caf9;
+  --mat-toolbar-container-background-color: #1e1e1e;
+  --mat-toolbar-container-text-color: #e0e0e0;
+
+  // Tooltip styling for dark mode (light tooltip on dark background)
+  --mdc-plain-tooltip-container-color: #e0e0e0;
+  --mdc-plain-tooltip-supporting-text-color: #121212;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Snackbar notification styles
+.snackbar-success {
+  --mdc-snackbar-container-color: #4caf50;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
+
+.snackbar-error {
+  --mdc-snackbar-container-color: #f44336;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
+
+.snackbar-info {
+  --mdc-snackbar-container-color: #2196f3;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
+
+.snackbar-warning {
+  --mdc-snackbar-container-color: #ff9800;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}

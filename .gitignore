@@ -10,6 +10,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+package-lock.json
 
 # IDEs and editors
 .idea/
@@ -40,9 +41,26 @@ __screenshots__/
 
 # System files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
 
-# Custom
-/TODO
+# Test coverage
+/coverage
+/.nyc_output
+
+# Environment files (keep environment.ts template, ignore secrets)
+/src/environments/environment.local.ts
+
+# Personal notes (not for professor)
 /brain
-/*.md
+/notes
+*.todo
+
+# Mock API (not needed - using real Rails backend)
+/shop-mock-api
+
+# Public folder (generated/uploaded files)
+/public/uploads
 
