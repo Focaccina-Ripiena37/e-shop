@@ -16,7 +16,7 @@ gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-# Disabilitati per deployment su Render (richiedono database multipli)
+# Disable solid gems to avoid needing a separate database on Render.com
 # gem "solid_cache"
 # gem "solid_queue"
 # gem "solid_cable"
@@ -52,6 +52,4 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-
-  gem 'rack-cors'
 end
