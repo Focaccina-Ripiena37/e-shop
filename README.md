@@ -26,33 +26,33 @@
 ## 🚀 Funzionalità
 
 ### Utente
-- 🛒 **Catalogo Prodotti** - Visualizzazione con filtri per categoria, tag e ricerca
-- 🔍 **Dettaglio Prodotto** - Galleria immagini e prodotti suggeriti
-- 🛍️ **Carrello Persistente** - Sincronizzato con backend, disponibile dopo login
+- 🛍 **Catalogo prodotti** - Visualizzazione con filtri per categoria, tag e ricerca
+- 🔍 **Dettaglio prodotto** - Galleria immagini e prodotti suggeriti
+- 🛍️ **Carrello persistente** - Sincronizzato con backend, disponibile dopo login
 - 📦 **Checkout** - Form completo con validazione real-time
-- 📜 **Storico Ordini** - Visualizzazione ordini passati con dettaglio
-- 👤 **Profilo Utente** - Gestione dati personali
+- 📜 **Storico ordini** - Visualizzazione ordini passati con dettaglio
+- 👤 **Profilo utente** - Gestione dati personali
 
 ### Admin
 - 📊 **Dashboard** - Panoramica ordini e statistiche
-- 📝 **Gestione Prodotti** - CRUD completo con categorie e tag
-- 📋 **Gestione Ordini** - Aggiornamento stato ordini
+- 📝 **Gestione prodotti** - CRUD completo con categorie e tag
+- 📋 **Gestione ordini** - Aggiornamento stato ordini
 
 ### UX/UI
-- 🌓 **Dark/Light Mode** - Toggle tema persistente
-- 📱 **Responsive Design** - Mobile-first con Material Design
+- 🌓 **Dark/light mode** - Toggle tema persistente
+- 📱 **Responsive design** - Mobile-first con Material Design
 - ⚡ **Performance** - Lazy loading e caching intelligente
 
 ## 🌟 Funzionalità Avanzate (Requisiti Esame)
 
-### 1. Area Admin Completa
+### 1. Area admin completa
 - ✅ CRUD prodotti con categorie e tag
 - ✅ Gestione ordini (cambio stato)
 - ✅ Filtro utenti attivi/inattivi
 - ✅ Protezione con guard Angular + ruolo backend
 - ✅ Dashboard con statistiche
 
-### 2. Storico Ordini Avanzato
+### 2. Storico ordini avanzato
 - ✅ Lista ordini con filtri stato
 - ✅ Dettaglio completo (prodotti, quantità, prezzi, indirizzo)
 - ✅ Persistenza dati utente disattivato

@@ -59,12 +59,12 @@ export class SignupPageComponent {
     password_confirmation: ['', [Validators.required]],
     first_name: ['', [Validators.required, Validators.minLength(2)]],
     last_name: ['', [Validators.required, Validators.minLength(2)]],
-    date_of_birth: [''],
-    gender: [''],
-    street: [''],
-    city: [''],
-    zip: ['', Validators.pattern(/^[0-9A-Za-z\s-]{3,10}$/)],
-    country: ['']
+    date_of_birth: ['1990-01-01'],
+    gender: ['male'],
+    street: ['Via Roma, 1'],
+    city: ['Roma'],
+    zip: ['00100', Validators.pattern(/^[0-9A-Za-z\s-]{3,10}$/)],
+    country: ['Italia']
   }, { validators: passwordMatchValidator });
 
   onSubmit(): void {

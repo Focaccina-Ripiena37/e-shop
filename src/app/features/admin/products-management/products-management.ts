@@ -14,7 +14,7 @@ import { NotificationService } from '../../../core/services/notification.service
 import { BehaviorSubject, filter, tap, map, combineLatest, Observable, switchMap, Subject, startWith, shareReplay } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-type SortField = 'id' | 'title' | 'price' | 'sale';
+type SortField = 'id' | 'title' | 'price' | 'originalPrice' | 'sale';
 type SortDirection = 'asc' | 'desc';
 
 @Component({
@@ -26,14 +26,14 @@ type SortDirection = 'asc' | 'desc';
       <!-- Back navigation -->
       <button class="back-button" mat-button routerLink="/admin">
         <mat-icon>arrow_back</mat-icon>
-        Back to Dashboard
+        Back to dashboard
       </button>
 
-      <h1>Product Management</h1>
+      <h1>Product management</h1>
 
       <!-- Create/Update Product Form -->
       <div class="product-form">
-        <h2>{{ editMode ? 'Edit Product' : 'New Product' }}</h2>
+        <h2>{{ editMode ? 'Edit product' : 'New product' }}</h2>
         <form (ngSubmit)="saveProduct()">
           <div class="form-row">
             <div class="form-group">
@@ -178,7 +178,7 @@ type SortDirection = 'asc' | 'desc';
 
       <!-- Product List -->
       <div class="products-list">
-        <h2>Existing Products</h2>
+        <h2>Existing products</h2>
         <table>
           <thead>
             <tr>
@@ -200,7 +200,12 @@ type SortDirection = 'asc' | 'desc';
                   {{ sortDirection === 'asc' ? '▲' : '▼' }}
                 </span>
               </th>
-              <th>Original Price</th>
+              <th class="sortable" (click)="toggleSort('originalPrice')">
+                Original price
+                <span class="sort-icon" *ngIf="sortField === 'originalPrice'">
+                  {{ sortDirection === 'asc' ? '▲' : '▼' }}
+                </span>
+              </th>
               <th class="sortable" (click)="toggleSort('sale')">
                 Sale
                 <span class="sort-icon" *ngIf="sortField === 'sale'">
@@ -682,6 +687,9 @@ export class ProductsManagement implements OnInit {
             break;
           case 'price':
             comparison = a.price - b.price;
+            break;
+          case 'originalPrice':
+            comparison = (a.originalPrice || 0) - (b.originalPrice || 0);
             break;
           case 'sale':
             comparison = (a.sale === b.sale) ? 0 : a.sale ? -1 : 1;

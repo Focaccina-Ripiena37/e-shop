@@ -19,18 +19,18 @@ type SortDirection = 'asc' | 'desc';
     <div class="orders-management">
       <!-- Back navigation -->
       <a routerLink="/admin" class="back-link">
-        <span class="back-arrow">&#8592;</span> Back to Dashboard
+        <span class="back-arrow">&#8592;</span> Back to dashboard
       </a>
 
-      <h1>Order Management</h1>
+      <h1>Order management</h1>
 
       <div class="filters">
         <label>
-          User Status:
+          User status:
           <select [(ngModel)]="userStatusFilter" (change)="applyFilters()">
-            <option value="all">All Users</option>
-            <option value="active">Active Only</option>
-            <option value="inactive">Inactive Only</option>
+            <option value="all">All users</option>
+            <option value="active">Active only</option>
+            <option value="inactive">Inactive only</option>
           </select>
         </label>
       </div>
@@ -52,7 +52,7 @@ type SortDirection = 'asc' | 'desc';
                 Customer {{ getSortIcon('customer') }}
               </th>
               <th>Email</th>
-              <th>User Status</th>
+              <th>User status</th>
               <th 
                 class="sortable" 
                 (click)="toggleSort('total')"

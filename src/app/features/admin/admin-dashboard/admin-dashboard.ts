@@ -12,13 +12,13 @@ import { RouterLink } from '@angular/router';
       
       <div class="admin-cards">
         <div class="admin-card">
-          <h2>Product Management</h2>
+          <h2>Product management</h2>
           <p>Create, edit, and delete products</p>
           <a routerLink="/admin/products" class="btn-primary">Go to Products</a>
         </div>
 
         <div class="admin-card">
-          <h2>Order Management</h2>
+          <h2>Order management</h2>
           <p>View and update order statuses</p>
           <a routerLink="/admin/orders" class="btn-primary">Go to Orders</a>
         </div>

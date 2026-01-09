@@ -75,17 +75,17 @@ import { ThemeService } from '../core/services/theme.service';
 
           <a mat-menu-item routerLink="/profile">
             <mat-icon>person</mat-icon>
-            <span>My Profile</span>
+            <span>My profile</span>
           </a>
 
           <a mat-menu-item routerLink="/orders">
             <mat-icon>receipt_long</mat-icon>
-            <span>My Orders</span>
+            <span>My orders</span>
           </a>
 
           <a *ngIf="authService.isAdmin" mat-menu-item routerLink="/admin">
             <mat-icon>admin_panel_settings</mat-icon>
-            <span>Admin Dashboard</span>
+            <span>Admin dashboard</span>
           </a>
 
           <mat-divider></mat-divider>

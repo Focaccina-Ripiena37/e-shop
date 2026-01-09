@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
   template: `
     <h2 mat-dialog-title>
       <mat-icon color="warn">warning</mat-icon>
-      Delete Account
+      Delete account
     </h2>
     <mat-dialog-content>
       <p class="warning-text">
@@ -33,7 +33,7 @@ import { MatIconModule } from '@angular/material/icon';
     <mat-dialog-actions align="end">
       <button mat-button [mat-dialog-close]="false">Cancel</button>
       <button mat-raised-button color="warn" [mat-dialog-close]="true">
-        Delete Account
+        Delete account
       </button>
     </mat-dialog-actions>
   `,
