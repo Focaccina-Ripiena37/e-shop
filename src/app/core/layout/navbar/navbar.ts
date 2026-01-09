@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
   template: `
     <nav class="navbar">
       <div class="nav-container">
-        <a routerLink="/products" class="logo">E-Shop</a>
+        <a routerLink="/products" class="logo">UniMart</a>
         
         <div class="nav-links">
           <a routerLink="/products">Products</a>

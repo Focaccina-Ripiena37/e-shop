@@ -64,3 +64,12 @@ Thumbs.db
 # Public folder (generated/uploaded files)
 /public/uploads
 
+# Angular build artifacts
+/.angular
+/dist
+/tmp
+
+# Frontend environment secrets
+/src/environments/*.local.ts
+/src/environments/environment.prod.ts
+

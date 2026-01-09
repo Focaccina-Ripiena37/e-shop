@@ -117,7 +117,7 @@ import { ThemeService } from '../core/services/theme.service';
   `]
 })
 export class HeaderComponent {
-  @Input() title = 'Shop';
+  @Input() title = 'UniMart';
   @Input() showIcon = false;
 
   private cartService = inject(CartService);

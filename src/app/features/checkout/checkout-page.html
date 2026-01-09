@@ -175,7 +175,7 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Card Number</mat-label>
-                <input matInput formControlName="cardNumber" placeholder="1234567812345678" type="text" maxlength="16" />
+                <input matInput formControlName="cardNumber" placeholder="1234 5678 1234 5678" type="text" maxlength="19" />
                 <mat-error *ngIf="hasError('payment.cardNumber', 'required')">Card number is required.</mat-error>
                 <mat-error *ngIf="hasError('payment.cardNumber', 'pattern')">Card number must be 16 digits.</mat-error>
                 <mat-hint>Only last 4 digits will be stored</mat-hint>

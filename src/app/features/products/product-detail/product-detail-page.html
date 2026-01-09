@@ -15,6 +15,8 @@
             class="main-image"
             [src]="getGalleryImages(product)[selectedImageIndex] || product.thumbnail"
             [alt]="product.title"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="gallery-thumbnails" *ngIf="getGalleryImages(product).length > 1">
@@ -24,7 +26,7 @@
             [class.active]="selectedImageIndex === i"
             (click)="selectImage(i)"
           >
-            <img [src]="img" [alt]="product.title + ' image ' + (i + 1)" />
+            <img [src]="img" [alt]="product.title + ' image ' + (i + 1)" loading="lazy" decoding="async" />
           </button>
         </div>
       </div>
@@ -80,7 +82,7 @@
             class="suggested-card"
             [routerLink]="['/products', sp.id]"
           >
-            <img mat-card-image [src]="sp.thumbnail" [alt]="sp.title" />
+            <img mat-card-image [src]="sp.thumbnail" [alt]="sp.title" loading="lazy" decoding="async" />
             <mat-card-content>
               <h3 class="suggested-product-title">{{ sp.title }}</h3>
               <p class="suggested-price">{{ sp.price | currency : 'EUR' }}</p>

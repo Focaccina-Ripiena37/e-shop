@@ -100,7 +100,7 @@ export class CheckoutPageComponent implements OnInit {
             method: ['credit_card', Validators.required],
             cardHolder: ['', [Validators.required, Validators.minLength(3)]],
             cardBrand: ['', Validators.required],
-            cardNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{16}$/)]],
+            cardNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$/)]],
             expiryDate: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/[0-9]{2}$/)]],
             cvv: ['', [Validators.required, Validators.pattern(/^[0-9]{3,4}$/)]]
         }),
@@ -128,6 +128,36 @@ export class CheckoutPageComponent implements OnInit {
                 this.copyShippingToBilling();
             }
         });
+
+        // Format card number automatically with spaces
+        this.form.get('payment.cardNumber')?.valueChanges.subscribe(value => {
+            if (value) {
+                const formatted = this.formatCardNumber(value);
+                if (formatted !== value) {
+                    this.form.get('payment.cardNumber')?.setValue(formatted, { emitEvent: false });
+                }
+            }
+        });
+    }
+
+    /**
+     * Format card number with spaces every 4 digits
+     * Accepts input with or without spaces and formats it correctly
+     */
+    formatCardNumber(value: string): string {
+        // Remove all spaces and non-digit characters
+        const digitsOnly = value.replace(/\s+/g, '').replace(/\D/g, '');
+        
+        // Limit to 16 digits
+        const limited = digitsOnly.substring(0, 16);
+        
+        // Add space every 4 digits
+        const parts: string[] = [];
+        for (let i = 0; i < limited.length; i += 4) {
+            parts.push(limited.substring(i, i + 4));
+        }
+        
+        return parts.join(' ');
     }
 
     copyShippingToBilling(): void {
@@ -180,8 +210,8 @@ export class CheckoutPageComponent implements OnInit {
                 return;
             }
 
-            // Extract last 4 digits of card number
-            const cardNumber = value.payment?.cardNumber || '';
+            // Extract last 4 digits of card number (remove spaces first)
+            const cardNumber = (value.payment?.cardNumber || '').replace(/\s+/g, '');
             const cardLast4 = cardNumber.slice(-4);
 
             // Get shipping type and cost

@@ -21,6 +21,7 @@ puts "Creating tags..."
 tag_names = [
   # Electronics
   'laptop', 'smartphone', 'apple', 'wireless', 'audio', 'wearable', 'fitness',
+  'gaming', 'nvidia', 'gpu', 'cpu', 'amd', 'pc-case', 'rgb',
   # Clothing
   'jacket', 'shoes', 'tshirt', 'denim', 'running', 'organic',
   # Books
@@ -49,16 +50,17 @@ end
 puts "Creating Electronics products..."
 create_product_with_tags(
   {
-    title: 'MacBook Pro 16"',
-    description: 'Professional laptop with M3 Pro chip, 18GB RAM, 512GB SSD.',
+    title: 'Apple 2024 MacBook Pro',
+    description: 'Apple MacBook Pro 2024 Laptop with M4 Pro chip, 14-core CPU and 20-core GPU; 16.2-inch Liquid Retina XDR display, 24GB unified storage, 512GB SSD storage; Space Black color',
     price: 2499.00,
     original_price: 2499.00,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/61j26WkzavL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800',
-      'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800',
-      'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800'
+      'https://m.media-amazon.com/images/I/61j26WkzavL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61LYZuPm94L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81s5m7q6OIL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/618SZiGilDL._AC_SL1500_.jpg'
     ]
   },
   categories['Electronics'],
@@ -67,16 +69,16 @@ create_product_with_tags(
 
 create_product_with_tags(
   {
-    title: 'iPhone 15 Pro',
+    title: 'iPhone 15 Pro 128GB',
     description: 'Smartphone with A17 Pro chip, 48MP camera, titanium design.',
-    price: 1099.00,
-    original_price: 1199.00,
-    sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500',
+    price: 600.00,
+    original_price: 600.00,
+    sale: false,
+    thumbnail: 'https://m.media-amazon.com/images/I/81NDDPNpt4L._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800',
-      'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800',
-      'https://images.unsplash.com/photo-1592286927505-1def25115558?w=800'
+      'https://m.media-amazon.com/images/I/81NDDPNpt4L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81er5wuPUqL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61lQJACyNRL._AC_SL1500_.jpg'
     ]
   },
   categories['Electronics'],
@@ -90,11 +92,12 @@ create_product_with_tags(
     price: 199.00,
     original_price: 249.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/51f7KKP25PL._AC_SL1000_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800',
-      'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800',
-      'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800'
+      'https://m.media-amazon.com/images/I/51f7KKP25PL._AC_SL1000_.jpg',
+      'https://m.media-amazon.com/images/I/61j+d6wLCEL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61Ym4SBP7zL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/615c64LJhBL._AC_SL1500_.jpg'
     ]
   },
   categories['Electronics'],
@@ -108,17 +111,93 @@ create_product_with_tags(
     price: 299.00,
     original_price: 349.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71qMhhNEdSL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',
-      'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800'
+      'https://m.media-amazon.com/images/I/71qMhhNEdSL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71LqoZu8E1L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81eUTWvBcVL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71lEfIrJT8L._AC_SL1500_.jpg'
     ]
   },
   categories['Electronics'],
   [tags['wearable'], tags['fitness']]
 )
 
-puts "Created 4 Electronics products"
+create_product_with_tags(
+  {
+    title: 'Gaming Laptop',
+    description: 'Acer Nitro V 16 AI PC Portatile IA, Notebook Gaming, NVIDIA GeForce RTX 5070 8 GB, Processore Ryzen™ AI 9 365, Ram 32 GB DDR5, 1024 GB SSD, Display 16" WQXGA IPS 180 Hz, Copilot+ PC, Windows 11 Home',
+    price: 1499.00,
+    original_price: 1599.00,
+    sale: true,
+    thumbnail: 'https://m.media-amazon.com/images/I/71wAWDX8PGL._AC_SL1500_.jpg',
+    images: [
+      'https://m.media-amazon.com/images/I/71wAWDX8PGL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/712RaXrST9L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81h-GR13-CL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61aQA7IviWL._AC_SL1500_.jpg'
+    ]
+  },
+  categories['Electronics'],
+  [tags['laptop'], tags['gaming'], tags['nvidia']]
+)
+
+create_product_with_tags(
+  {
+    title: 'GeForce RTX 5080',
+    description: 'ASUS PRIME NVIDIA GeForce RTX 5080 OC Edition, Video card 16 GB GDDR7, 256 Bit, PCIe 5.0, 1 HDMI, 3 DisplayPort',
+    price: 1099.00,
+    original_price: 1099.00,
+    sale: false,
+    thumbnail: 'https://m.media-amazon.com/images/I/81cPV47HNyL._AC_SL1500_.jpg',
+    images: [
+      'https://m.media-amazon.com/images/I/81cPV47HNyL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71Yo7Yctt7L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81Pb5MSYc2L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81yICr30ETL._AC_SL1500_.jpg'
+    ]
+  },
+  categories['Electronics'],
+  [tags['gpu'], tags['nvidia'], tags['gaming']]
+)
+
+create_product_with_tags(
+  {
+    title: 'AMD RYZEN™ 7 9800X3D',
+    description: 'AMD RYZEN™ 7 9800X3D 8 Core/16 Thread Unlocked, Zen 5 Architecture, 104 MB Cache, 120W TDP, Up to 5.2 GHz Boost Frequency, Socket AM5, Cooler Not Included',
+    price: 399.00,
+    original_price: 399.00,
+    sale: false,
+    thumbnail: 'https://m.media-amazon.com/images/I/71aHvYUgX1L._AC_SL1500_.jpg',
+    images: [
+      'https://m.media-amazon.com/images/I/71aHvYUgX1L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/715fCWT5GgL._AC_SL1500_.jpg'
+    ]
+  },
+  categories['Electronics'],
+  [tags['cpu'], tags['amd'], tags['gaming']]
+)
+
+create_product_with_tags(
+  {
+    title: 'ASUS Prime AP202 ARGB',
+    description: 'ASUS Prime AP202 ARGB, mATX Case, Tool-Free Panels, Support for 360mm Heatsinks, 420mm Graphics Cards and 200mm Power Supplies, 3 Integrated ARGB Fans, USB-C Port, Black',
+    price: 120.00,
+    original_price: 139.00,
+    sale: true,
+    thumbnail: 'https://m.media-amazon.com/images/I/81SLMACl6SL._AC_SL1500_.jpg',
+    images: [
+      'https://m.media-amazon.com/images/I/81SLMACl6SL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81Bn-hWMJhL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/817HWf4ZT6L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81J511nyHsL._AC_SL1500_.jpg'
+    ]
+  },
+  categories['Electronics'],
+  [tags['pc-case'], tags['rgb'], tags['gaming']]
+)
+
+puts "Created 8 Electronics products"
 
 # Clothing
 puts "Creating Clothing products..."
@@ -129,10 +208,14 @@ create_product_with_tags(
     price: 89.99,
     original_price: 89.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/81CT2qSz0wL._AC_SY741_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800',
-      'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=800'
+      'https://m.media-amazon.com/images/I/81CT2qSz0wL._AC_SY741_.jpg',
+      'https://m.media-amazon.com/images/I/811104XjrCL._AC_SY741_.jpg',
+      'https://m.media-amazon.com/images/I/81Z4YErK59L._AC_SX679_.jpg',
+      'https://m.media-amazon.com/images/I/91B9HHv+jrL._AC_SX679_.jpg',
+      'https://m.media-amazon.com/images/I/91xX6YTz8yL._AC_SX679_.jpg',
+      'https://m.media-amazon.com/images/I/A18yZ2T9h0L._AC_SX679_.jpg'
     ]
   },
   categories['Clothing'],
@@ -146,11 +229,12 @@ create_product_with_tags(
     price: 129.00,
     original_price: 149.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71qEpTPmmyL._AC_SX575_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800',
-      'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800',
-      'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800'
+      'https://m.media-amazon.com/images/I/71qEpTPmmyL._AC_SX575_.jpg',
+      'https://m.media-amazon.com/images/I/615MbPG2fQL._AC_SY575_.jpg',
+      'https://m.media-amazon.com/images/I/71H1hzptj5L._AC_SX575_.jpg',
+      'https://m.media-amazon.com/images/I/71MoYbgjXeL._AC_SX575_.jpg'
     ]
   },
   categories['Clothing'],
@@ -164,10 +248,11 @@ create_product_with_tags(
     price: 29.99,
     original_price: 29.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/61onAWYNTUL._AC_SX522_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800',
-      'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800'
+      'https://m.media-amazon.com/images/I/61onAWYNTUL._AC_SX522_.jpg',
+      'https://m.media-amazon.com/images/I/71ogjryujsL._AC_SY550_.jpg',
+      'https://m.media-amazon.com/images/I/41iMjikb3cL._AC_.jpg'
     ]
   },
   categories['Clothing'],
@@ -185,10 +270,12 @@ create_product_with_tags(
     price: 42.99,
     original_price: 42.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/81Rnac2Fq+L._SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800',
-      'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800'
+      'https://m.media-amazon.com/images/I/81Rnac2Fq+L._SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71A3pbWeF0L._SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71LCi6lP1RL._SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71ZyVB54MRL._SL1500_.jpg'
     ]
   },
   categories['Books'],
@@ -202,9 +289,9 @@ create_product_with_tags(
     price: 24.99,
     original_price: 24.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/81kg51XRc1L._SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800'
+      'https://m.media-amazon.com/images/I/81kg51XRc1L._SL1500_.jpg'
     ]
   },
   categories['Books'],
@@ -218,10 +305,11 @@ create_product_with_tags(
     price: 39.99,
     original_price: 49.99,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/61m29vX9IKL._SL1169_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=800',
-      'https://images.unsplash.com/photo-1506466010722-395aa2bef877?w=800'
+      'https://m.media-amazon.com/images/I/61m29vX9IKL._SL1169_.jpg',
+      'https://m.media-amazon.com/images/I/81MQBzDw6ZL._SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81uRF7s+XmL._SL1500_.jpg'
     ]
   },
   categories['Books'],
@@ -235,9 +323,10 @@ create_product_with_tags(
     price: 22.99,
     original_price: 22.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71JvpJ2dMZL._SL1300_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1589998059171-988d887df646?w=800'
+      'https://m.media-amazon.com/images/I/71JvpJ2dMZL._SL1300_.jpg',
+      'https://m.media-amazon.com/images/I/61hbZIc4HlL._SL1080_.jpg'
     ]
   },
   categories['Books'],
@@ -255,10 +344,11 @@ create_product_with_tags(
     price: 449.00,
     original_price: 499.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/61oaZO8l8SL._AC_SL1080_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=800',
-      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800'
+      'https://m.media-amazon.com/images/I/61oaZO8l8SL._AC_SL1080_.jpg',
+      'https://m.media-amazon.com/images/I/712E8-x1WBL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/51hA-6x4pYL._AC_.jpg'
     ]
   },
   categories['Home & Kitchen'],
@@ -272,10 +362,12 @@ create_product_with_tags(
     price: 159.00,
     original_price: 159.00,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/91-nS2vR-nL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=800',
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800'
+      'https://m.media-amazon.com/images/I/91-nS2vR-nL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/91FkLQkIdRL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81Qh7HNYWdL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/91dvpLBvkML._AC_SL1500_.jpg'
     ]
   },
   categories['Home & Kitchen'],
@@ -289,10 +381,13 @@ create_product_with_tags(
     price: 79.99,
     original_price: 79.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/614ieVb3YPL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800',
-      'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800'
+      'https://m.media-amazon.com/images/I/614ieVb3YPL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71CLgbNmSwL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71Vtf0f8GbL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71WSobmdSiL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/51x-k3NRU1L._AC_.jpg'
     ]
   },
   categories['Home & Kitchen'],
@@ -306,9 +401,13 @@ create_product_with_tags(
     price: 399.00,
     original_price: 449.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/51hQKU+yOxL._AC_SL1000_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=800'
+      'https://m.media-amazon.com/images/I/51hQKU+yOxL._AC_SL1000_.jpg',
+      'https://m.media-amazon.com/images/I/71PgN6BZOCL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/51bgM5OjdVL._AC_SL1000_.jpg',
+      'https://m.media-amazon.com/images/I/61w5CO1UFLL._AC_SL1000_.jpg',
+      'https://m.media-amazon.com/images/I/51ChkiSEdcL._AC_SL1000_.jpg'
     ]
   },
   categories['Home & Kitchen'],
@@ -322,10 +421,11 @@ create_product_with_tags(
     price: 49.99,
     original_price: 49.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/81HjaJLadYL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800',
-      'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?w=800'
+      'https://m.media-amazon.com/images/I/81HjaJLadYL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81uoK-GPY0L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/81UfO681h2L._AC_SL1500_.jpg'
     ]
   },
   categories['Home & Kitchen'],
@@ -343,10 +443,12 @@ create_product_with_tags(
     price: 189.00,
     original_price: 189.00,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71sAIDQFBxL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800',
-      'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=800'
+      'https://m.media-amazon.com/images/I/71sAIDQFBxL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61-3dQEsKyL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/613quZZUsHL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/61extMuj0fL._AC_SL1500_.jpg'
     ]
   },
   categories['Sports & Outdoors'],
@@ -360,10 +462,13 @@ create_product_with_tags(
     price: 699.00,
     original_price: 799.00,
     sale: true,
-    thumbnail: 'https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71R0CS4+AcL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=800',
-      'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=800'
+      'https://m.media-amazon.com/images/I/71R0CS4+AcL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71QjwDGu70L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/713y457cz2L._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71rOKiub7FL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71cKjPC9usL._AC_SL1500_.jpg'
     ]
   },
   categories['Sports & Outdoors'],
@@ -377,10 +482,12 @@ create_product_with_tags(
     price: 39.99,
     original_price: 39.99,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/81gb1BwV-LL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=800',
-      'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800'
+      'https://m.media-amazon.com/images/I/81gb1BwV-LL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/710l-QsDJpL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/910VjBNpgKL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/91FBFYUOpHL._AC_SL1500_.jpg'
     ]
   },
   categories['Sports & Outdoors'],
@@ -394,10 +501,12 @@ create_product_with_tags(
     price: 249.00,
     original_price: 249.00,
     sale: false,
-    thumbnail: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500',
+    thumbnail: 'https://m.media-amazon.com/images/I/71VKdoPX8eL._AC_SL1500_.jpg',
     images: [
-      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800',
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800'
+      'https://m.media-amazon.com/images/I/71VKdoPX8eL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71c6YdylZvL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71xGQI3ZoZL._AC_SL1500_.jpg',
+      'https://m.media-amazon.com/images/I/71rLbv5UcuL._AC_SL1500_.jpg'
     ]
   },
   categories['Sports & Outdoors'],
@@ -414,15 +523,246 @@ puts "Total product-tag associations: #{ProductTag.count}"
 
 # Users
 puts "\nCreating users..."
-User.find_or_create_by!(email: 'user@test.com') do |u|
-  u.password = 'password123'
-  u.password_confirmation = 'password123'
-end
 
-User.find_or_create_by!(email: 'admin@test.com') do |u|
+# Admin user
+admin = User.find_or_create_by!(email: 'admin@test.com') do |u|
   u.password = 'password123'
   u.password_confirmation = 'password123'
   u.admin = true
 end
 
-puts "Created #{User.count} users"
+# Regular users with realistic data
+user1 = User.find_or_create_by!(email: 'marco.rossi@email.it') do |u|
+  u.password = 'password123'
+  u.password_confirmation = 'password123'
+  u.admin = false
+end
+
+user2 = User.find_or_create_by!(email: 'giulia.bianchi@email.it') do |u|
+  u.password = 'password123'
+  u.password_confirmation = 'password123'
+  u.admin = false
+end
+
+user3 = User.find_or_create_by!(email: 'alessandro.ferrari@email.it') do |u|
+  u.password = 'password123'
+  u.password_confirmation = 'password123'
+  u.admin = false
+end
+
+# Inactive user (deactivated account)
+user4 = User.find_or_create_by!(email: 'stefano.colombo@email.it') do |u|
+  u.password = 'password123'
+  u.password_confirmation = 'password123'
+  u.admin = false
+  u.active = false
+end
+
+puts "Created #{User.count} users (including #{User.where(active: false).count} inactive)"
+
+# Orders
+puts "\nCreating sample orders..."
+
+# Get some products for orders
+macbook = Product.find_by(title: 'Apple 2024 MacBook Pro')
+iphone = Product.find_by(title: 'iPhone 15 Pro 128GB')
+headphones = Product.find_by(title: 'Wireless Bluetooth Headphones')
+watch = Product.find_by(title: 'Smart Watch Pro')
+gaming_laptop = Product.find_by(title: 'Gaming Laptop')
+rtx = Product.find_by(title: 'GeForce RTX 5080')
+yoga_mat = Product.find_by(title: 'Premium Yoga Mat')
+book = Product.find_by(title: 'Clean Code - Robert Martin')
+coffee_machine = Product.find_by(title: 'Espresso Coffee Machine')
+bike = Product.find_by(title: 'Mountain Bike 29"')
+
+# Order 1 - Marco Rossi (Delivered)
+order1 = Order.create!(
+  user: user1,
+  status: 'delivered',
+  total: headphones.price + watch.price,
+  payment_method: 'credit_card',
+  shipping_type: 'standard',
+  shipping_cost: 5.99,
+  first_name: 'Marco',
+  last_name: 'Rossi',
+  email: 'marco.rossi@email.it',
+  street: 'Via Roma 123',
+  city: 'Ferrara',
+  zip: '44121',
+  card_brand: 'Visa',
+  card_last4: '4242',
+  billing_address_attributes: {
+    full_name: 'Marco Rossi',
+    street: 'Via Roma 123',
+    city: 'Ferrara',
+    zip: '44121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order1, product: headphones, quantity: 1, unit_price: headphones.price)
+OrderItem.create!(order: order1, product: watch, quantity: 1, unit_price: watch.price)
+
+# Order 2 - Marco Rossi (Shipped)
+order2 = Order.create!(
+  user: user1,
+  status: 'shipped',
+  total: book.price * 2 + yoga_mat.price,
+  payment_method: 'credit_card',
+  shipping_type: 'premium',
+  shipping_cost: 9.99,
+  first_name: 'Marco',
+  last_name: 'Rossi',
+  email: 'marco.rossi@email.it',
+  street: 'Via Roma 123',
+  city: 'Ferrara',
+  zip: '44121',
+  card_brand: 'Mastercard',
+  card_last4: '5555',
+  billing_address_attributes: {
+    full_name: 'Marco Rossi',
+    street: 'Via Roma 123',
+    city: 'Ferrara',
+    zip: '44121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order2, product: book, quantity: 2, unit_price: book.price)
+OrderItem.create!(order: order2, product: yoga_mat, quantity: 1, unit_price: yoga_mat.price)
+
+# Order 3 - Giulia Bianchi (Delivered)
+order3 = Order.create!(
+  user: user2,
+  status: 'delivered',
+  total: macbook.price + iphone.price,
+  payment_method: 'credit_card',
+  shipping_type: 'premium',
+  shipping_cost: 9.99,
+  first_name: 'Giulia',
+  last_name: 'Bianchi',
+  email: 'giulia.bianchi@email.it',
+  street: 'Corso Ercole I d\'Este 45',
+  city: 'Ferrara',
+  zip: '44121',
+  card_brand: 'Visa',
+  card_last4: '1234',
+  billing_address_attributes: {
+    full_name: 'Giulia Bianchi',
+    street: 'Corso Ercole I d\'Este 45',
+    city: 'Ferrara',
+    zip: '44121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order3, product: macbook, quantity: 1, unit_price: macbook.price)
+OrderItem.create!(order: order3, product: iphone, quantity: 1, unit_price: iphone.price)
+
+# Order 4 - Giulia Bianchi (Processing)
+order4 = Order.create!(
+  user: user2,
+  status: 'processing',
+  total: coffee_machine.price + book.price,
+  payment_method: 'credit_card',
+  shipping_type: 'standard',
+  shipping_cost: 5.99,
+  first_name: 'Giulia',
+  last_name: 'Bianchi',
+  email: 'giulia.bianchi@email.it',
+  street: 'Corso Ercole I d\'Este 45',
+  city: 'Ferrara',
+  zip: '44121',
+  card_brand: 'Mastercard',
+  card_last4: '9876',
+  billing_address_attributes: {
+    full_name: 'Giulia Bianchi',
+    street: 'Corso Ercole I d\'Este 45',
+    city: 'Ferrara',
+    zip: '44121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order4, product: coffee_machine, quantity: 1, unit_price: coffee_machine.price)
+OrderItem.create!(order: order4, product: book, quantity: 1, unit_price: book.price)
+
+# Order 5 - Alessandro Ferrari (Delivered)
+order5 = Order.create!(
+  user: user3,
+  status: 'delivered',
+  total: gaming_laptop.price + rtx.price,
+  payment_method: 'credit_card',
+  shipping_type: 'premium',
+  shipping_cost: 9.99,
+  first_name: 'Alessandro',
+  last_name: 'Ferrari',
+  email: 'alessandro.ferrari@email.it',
+  street: 'Via Mazzini 78',
+  city: 'Bologna',
+  zip: '40121',
+  card_brand: 'Visa',
+  card_last4: '6789',
+  billing_address_attributes: {
+    full_name: 'Alessandro Ferrari',
+    street: 'Via Mazzini 78',
+    city: 'Bologna',
+    zip: '40121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order5, product: gaming_laptop, quantity: 1, unit_price: gaming_laptop.price)
+OrderItem.create!(order: order5, product: rtx, quantity: 1, unit_price: rtx.price)
+
+# Order 6 - Alessandro Ferrari (Shipped)
+order6 = Order.create!(
+  user: user3,
+  status: 'shipped',
+  total: bike.price + headphones.price,
+  payment_method: 'credit_card',
+  shipping_type: 'standard',
+  shipping_cost: 5.99,
+  first_name: 'Alessandro',
+  last_name: 'Ferrari',
+  email: 'alessandro.ferrari@email.it',
+  street: 'Via Mazzini 78',
+  city: 'Bologna',
+  zip: '40121',
+  card_brand: 'Mastercard',
+  card_last4: '3333',
+  billing_address_attributes: {
+    full_name: 'Alessandro Ferrari',
+    street: 'Via Mazzini 78',
+    city: 'Bologna',
+    zip: '40121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order6, product: bike, quantity: 1, unit_price: bike.price)
+OrderItem.create!(order: order6, product: headphones, quantity: 1, unit_price: headphones.price)
+
+# Order 7 - Stefano Colombo (Delivered - Before account deactivation)
+order7 = Order.create!(
+  user: user4,
+  status: 'delivered',
+  total: iphone.price + headphones.price,
+  payment_method: 'credit_card',
+  shipping_type: 'standard',
+  shipping_cost: 5.99,
+  first_name: 'Stefano',
+  last_name: 'Colombo',
+  email: 'stefano.colombo@email.it',
+  street: 'Via Garibaldi 56',
+  city: 'Milano',
+  zip: '20121',
+  card_brand: 'Visa',
+  card_last4: '8888',
+  billing_address_attributes: {
+    full_name: 'Stefano Colombo',
+    street: 'Via Garibaldi 56',
+    city: 'Milano',
+    zip: '20121',
+    country: 'Italia'
+  }
+)
+OrderItem.create!(order: order7, product: iphone, quantity: 1, unit_price: iphone.price)
+OrderItem.create!(order: order7, product: headphones, quantity: 1, unit_price: headphones.price)
+
+puts "Created #{Order.count} orders with #{OrderItem.count} items"
+puts "\nSeed completed successfully!"

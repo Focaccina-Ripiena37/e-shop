@@ -1,10 +1,13 @@
-# 🛍️ E-Shop - Progetto Sistemi Web
+# 🛍️ UniMart - E-Commerce Universitario
 
-![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white)
-![Rails](https://img.shields.io/badge/Rails-7-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-21.0-550080?style=for-the-badge&logo=angular&logoColor=white)
+![Rails](https://img.shields.io/badge/Rails-8.1.1-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Ruby](https://img.shields.io/badge/Ruby-3.3.10-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-24.12-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Applicazione e-commerce full-stack sviluppata per il corso di **Sistemi Web - UNIFE** (AA 2025/2026).
+**UniMart** è un'applicazione e-commerce full-stack sviluppata per il corso di **Sistemi Web - UNIFE** (AA 2025/2026).
 
 ## 📋 Indice
 
@@ -40,20 +43,36 @@ Applicazione e-commerce full-stack sviluppata per il corso di **Sistemi Web - UN
 - 📱 **Responsive Design** - Mobile-first con Material Design
 - ⚡ **Performance** - Lazy loading e caching intelligente
 
+## 🌟 Funzionalità Avanzate (Requisiti Esame)
+
+### 1. Area Admin Completa
+- ✅ CRUD prodotti con categorie e tag
+- ✅ Gestione ordini (cambio stato)
+- ✅ Filtro utenti attivi/inattivi
+- ✅ Protezione con guard Angular + ruolo backend
+- ✅ Dashboard con statistiche
+
+### 2. Storico Ordini Avanzato
+- ✅ Lista ordini con filtri stato
+- ✅ Dettaglio completo (prodotti, quantità, prezzi, indirizzo)
+- ✅ Persistenza dati utente disattivato
+
 ## 🛠️ Tecnologie
 
 | Frontend | Backend | Database |
 |----------|---------|----------|
-| Angular 21 | Ruby on Rails 7 | PostgreSQL |
-| Angular Material | Devise + JWT | SQLite (dev) |
-| RxJS | ActiveRecord | |
-| TypeScript 5.9 | Puma | |
+| Angular 21.0 | Ruby on Rails 8.1.1 | PostgreSQL 14+ |
+| Angular Material 21.0 | Devise + JWT | SQLite (dev) |
+| RxJS 7.8 | ActiveRecord | |
+| TypeScript 5.9.2 | Puma 5.0+ | |
+| Node.js 24.12 | Ruby 3.3.10 | |
 
 ## 📋 Requisiti
 
-- **Node.js** >= 20.x
-- **Ruby** >= 3.2
-- **Rails** >= 7.0
+- **Node.js** >= 24.12
+- **npm** >= 11.6
+- **Ruby** >= 3.3.10
+- **Rails** >= 8.1.1
 - **PostgreSQL** >= 14 (produzione)
 - **Docker** (opzionale)
 
@@ -95,11 +114,15 @@ npm start
 
 Visita **http://localhost:4200**
 
-### Utenti Demo
-| Email | Password | Ruolo |
-|-------|----------|-------|
-| admin@example.com | password123 | Admin |
-| user@example.com | password123 | User |
+### 👥 Utenti Demo
+
+| Email | Password | Ruolo | Note |
+|-------|----------|-------|------|
+| admin@test.com | password123 | Admin | Accesso dashboard admin |
+| marco.rossi@email.it | password123 | User | 2 ordini completati |
+| giulia.bianchi@email.it | password123 | User | 2 ordini (1 processing) |
+| alessandro.ferrari@email.it | password123 | User | 2 ordini |
+| stefano.colombo@email.it | password123 | **Inattivo** | Account disattivato con 1 ordine |
 
 ## 🐳 Docker
 

@@ -1,8 +1,8 @@
-# Architettura del Progetto E-Shop
+# Architettura del Progetto UniMart
 
 ## 1. Panoramica
 
-Applicazione e-commerce full-stack composta da:
+**UniMart** è un'applicazione e-commerce full-stack composta da:
 - **Frontend**: Angular 21 con Material Design
 - **Backend**: Ruby on Rails in modalità API
 - **Database**: PostgreSQL (produzione) / SQLite (sviluppo)
@@ -212,3 +212,39 @@ docker-compose up
 3. **Galleria Immagini**: Visualizzazione multipla nel dettaglio prodotto
 4. **Prodotti Suggeriti**: Raccomandazioni basate su categoria/tag
 5. **Profilo Utente**: Gestione dati personali e soft delete account
+
+## 5. Flusso Applicativo Completo
+
+### 5.1 Autenticazione
+1. User invia credenziali a `POST /api/login`
+2. Backend valida con Devise e genera JWT
+3. Frontend memorizza token in localStorage
+4. AuthInterceptor aggiunge token a ogni richiesta
+5. Guard protegge rotte `/checkout`, `/orders`, `/admin`
+
+### 5.2 Carrello Persistente
+1. User aggiunge prodotto → `POST /api/cart/items`
+2. Backend crea/aggiorna CartItem associato a User
+3. CartService aggiorna BehaviorSubject
+4. Carrello persiste tra sessioni (reload pagina)
+5. Carrello guest: identificato da token temporaneo
+
+### 5.3 Checkout e Ordine
+1. User clicca Checkout → Redirect a `/checkout` (guard attivo)
+2. Frontend carica carrello da `GET /api/cart`
+3. User compila form (Reactive Forms con validazioni)
+4. Submit → `POST /api/orders` con dati checkout + items carrello
+5. Backend:
+   - Crea Order + OrderItems
+   - Calcola totale con shipping
+   - Salva BillingAddress
+   - Svuota carrello
+6. Frontend mostra conferma ordine
+7. User vede ordine in `/orders`
+
+### 5.4 Gestione Admin
+1. Admin login → `admin: true` nel JWT payload
+2. AdminGuard verifica ruolo
+3. Dashboard: `GET /api/admin/orders` + statistiche
+4. Cambio stato: `PUT /api/admin/orders/:id`
+5. CRUD prodotti: `POST/PUT/DELETE /api/admin/products/:id`
