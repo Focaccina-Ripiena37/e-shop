@@ -52,6 +52,8 @@ Thumbs.db
 
 # Environment files (keep environment.ts template, ignore secrets)
 /src/environments/environment.local.ts
+.env
+!.env.example
 
 # Personal notes (not for professor)
 /brain
@@ -71,7 +73,8 @@ Thumbs.db
 
 # Frontend environment secrets
 /src/environments/*.local.ts
-/src/environments/environment.prod.ts
 
-# Backend environment secrets
+# Backend environment secrets  
 /.env
+.env
+!.env.example

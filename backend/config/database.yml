@@ -23,9 +23,9 @@ default: &default
 development:
   <<: *default
   database: eshop_development
-  username: postgres
-  password: permesso
-  host: localhost
+  username: eshop
+  password: eshop_password
+  host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
   port: 5432
 
   # The specified database role being used to connect to PostgreSQL.

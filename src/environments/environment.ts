@@ -1,4 +1,5 @@
+// Development environment (locale)
 export const environment = {
-  production: true,
-  apiUrl: 'https://e-shop-api-ob96.onrender.com/api'
+  production: false,
+  apiUrl: 'http://localhost:3001/api'
 };

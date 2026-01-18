@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # PostgreSQL Database
   db:
@@ -23,7 +21,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: eshop-backend
     depends_on:
       db:
@@ -31,6 +29,7 @@ services:
     environment:
       RAILS_ENV: development
       DATABASE_URL: postgres://eshop:eshop_password@db:5432/eshop_development
+      DB_HOST: db
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-}
     volumes:
@@ -55,7 +54,7 @@ services:
       - "4200:4200"
     environment:
       - CHOKIDAR_USEPOLLING=true
-    command: npm start -- --host 0.0.0.0 --disable-host-check
+    command: npm start -- --host 0.0.0.0
 
 volumes:
   postgres_data:
