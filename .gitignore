@@ -73,3 +73,5 @@ Thumbs.db
 /src/environments/*.local.ts
 /src/environments/environment.prod.ts
 
+# Backend environment secrets
+/.env
