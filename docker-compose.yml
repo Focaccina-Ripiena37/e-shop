@@ -32,7 +32,7 @@ services:
       RAILS_ENV: development
       DATABASE_URL: postgres://eshop:eshop_password@db:5432/eshop_development
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-your-secret-key-here}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-}
     volumes:
       - ./backend:/app
       - backend_bundle:/usr/local/bundle
