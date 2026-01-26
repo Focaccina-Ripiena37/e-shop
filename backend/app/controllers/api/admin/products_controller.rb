@@ -1,7 +1,13 @@
 class Api::Admin::ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin!
-  before_action :set_product, only: [:update, :destroy]
+  before_action :set_product, only: [:update, :destroy, :restore]
+
+  # GET /api/admin/products (include soft-deleted)
+  def index
+    products = Product.with_deleted.includes(:category, :tags).order(created_at: :desc)
+    render json: products
+  end
 
   # POST /api/admin/products
   def create
@@ -23,16 +29,29 @@ class Api::Admin::ProductsController < ApplicationController
     end
   end
 
-  # DELETE /api/admin/products/:id
+  # DELETE /api/admin/products/:id (Soft delete)
   def destroy
-    @product.destroy
-    head :no_content
+    if @product.destroy
+      render json: { message: 'Product soft deleted successfully' }, status: :ok
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # POST /api/admin/products/:id/restore
+  def restore
+    if @product.restore
+      render json: @product, status: :ok
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
 
   def set_product
-    @product = Product.find(params[:id])
+    # Include prodotti soft-deleted per operazioni admin
+    @product = Product.with_deleted.find(params[:id])
   end
 
   # Accept camelCase keys coming from the Angular app and normalize them

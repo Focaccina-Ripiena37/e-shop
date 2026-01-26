@@ -47,4 +47,14 @@ export class ProductService {
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/admin/products/${id}`);
   }
+
+  // Admin: List all products including soft-deleted
+  listWithDeleted(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/admin/products`);
+  }
+
+  // Admin: Restore soft-deleted product
+  restore(id: string): Observable<Product> {
+    return this.http.post<Product>(`${this.baseUrl}/admin/products/${id}/restore`, {});
+  }
 }

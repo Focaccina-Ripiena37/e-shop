@@ -14,4 +14,5 @@ export interface Product {
   category?: Category;
   tags?: Tag[];
   createdAt: string;
+  deletedAt?: string | null;  // Soft delete timestamp
 }

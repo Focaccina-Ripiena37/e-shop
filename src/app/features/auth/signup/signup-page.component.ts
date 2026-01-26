@@ -12,6 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { CartService } from '../../../core/services/cart.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 // Custom validator per password match
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -95,6 +96,9 @@ export class SignupPageComponent {
     ).subscribe({
       next: () => {
         this.loading = false;
+
+        // Show success notification
+        inject(NotificationService).success('Account created successfully!');
 
         // Load cart right after signup (token just received)
         this.cartService.loadCart();

@@ -69,9 +69,17 @@ Thumbs.db
 /dist
 /tmp
 
-# Frontend environment secrets
+# Frontend environment files
 /src/environments/*.local.ts
-/src/environments/environment.prod.ts
+# Note: environment.development.ts is tracked (localhost only)
+# Note: environment.prod.ts contains Render URL (safe to commit)
 
 # Backend environment secrets
 /.env
+/backend/.env
+/backend/.env.local
+/backend/.env.production
+
+# Documentation files (if too large)
+# ADMIN_DELETED_PRODUCTS.md
+# SOFT_DELETE_DOCUMENTATION.md

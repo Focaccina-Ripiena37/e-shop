@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { CartService } from '../../../core/services/cart.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-login-page',
@@ -32,6 +33,7 @@ export class LoginPageComponent {
   private cartService = inject(CartService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private notify = inject(NotificationService);
 
   loading = false;
   errorMessage = '';
@@ -55,6 +57,9 @@ export class LoginPageComponent {
     this.authService.login(email!, password!).subscribe({
       next: () => {
         this.loading = false;
+
+        // Show success notification
+        this.notify.success('Login successful!');
 
         // Reload cart now that the token is valid
         this.cartService.loadCart();

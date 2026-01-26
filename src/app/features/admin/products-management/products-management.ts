@@ -31,6 +31,16 @@ type SortDirection = 'asc' | 'desc';
 
       <h1>Product management</h1>
 
+      <!-- Filter Deleted Products -->
+      <div class="filter-section">
+        <label for="deletedFilter">Show products:</label>
+        <select id="deletedFilter" [(ngModel)]="deletedFilter" (ngModelChange)="onDeletedFilterChange()" name="deletedFilter">
+          <option value="active">Active only</option>
+          <option value="deleted">Deleted only</option>
+          <option value="all">All products</option>
+        </select>
+      </div>
+
       <!-- Create/Update Product Form -->
       <div class="product-form">
         <h2>{{ editMode ? 'Edit product' : 'New product' }}</h2>
@@ -218,9 +228,12 @@ type SortDirection = 'asc' | 'desc';
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let product of sortedProducts$ | async">
+            <tr *ngFor="let product of sortedProducts$ | async" [class.deleted-row]="isProductDeleted(product)">
               <td>{{ product.id }}</td>
-              <td>{{ product.title }}</td>
+              <td>
+                {{ product.title }}
+                <span class="deleted-badge" *ngIf="isProductDeleted(product)">🗑️ Deleted</span>
+              </td>
               <td>{{ product.price | currency:'EUR' }}</td>
               <td>{{ product.originalPrice | currency:'EUR' }}</td>
               <td>
@@ -234,8 +247,9 @@ type SortDirection = 'asc' | 'desc';
                 <span class="table-tag" *ngFor="let tag of product.tags">{{ tag.name }}</span>
               </td>
               <td>
-                <button class="btn-edit" (click)="editProduct(product)">Edit</button>
-                <button class="btn-delete" (click)="deleteProduct(product.id)">Delete</button>
+                <button class="btn-edit" (click)="editProduct(product)" [disabled]="isProductDeleted(product)">Edit</button>
+                <button *ngIf="!isProductDeleted(product)" class="btn-delete" (click)="deleteProduct(product.id)">Delete</button>
+                <button *ngIf="isProductDeleted(product)" class="btn-restore" (click)="restoreProduct(product.id)">Restore</button>
               </td>
             </tr>
           </tbody>
@@ -635,6 +649,76 @@ type SortDirection = 'asc' | 'desc';
     }
 
     .btn-delete:hover { background: #c0392b; }
+
+    .btn-restore {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      background: #27ae60;
+      color: white;
+    }
+
+    .btn-restore:hover { background: #229954; }
+
+    .filter-section {
+      background: var(--mat-sys-surface);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid var(--mat-sys-outline-variant);
+    }
+
+    .filter-section label {
+      font-weight: 600;
+      color: var(--mat-sys-on-surface);
+    }
+
+    .filter-section select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--mat-sys-outline);
+      border-radius: 4px;
+      background: var(--mat-sys-surface);
+      color: var(--mat-sys-on-surface);
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .deleted-badge {
+      display: inline-block;
+      margin-left: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: #e74c3c;
+      color: white;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+
+    .deleted-row {
+      background-color: rgba(0, 0, 0, 0.05);
+      opacity: 0.7;
+    }
+
+    .deleted-row td {
+      color: var(--mat-sys-on-surface-variant);
+      text-decoration: line-through;
+    }
+
+    .deleted-row .deleted-badge {
+      text-decoration: none;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   `]
 })
 export class ProductsManagement implements OnInit {
@@ -662,6 +746,11 @@ export class ProductsManagement implements OnInit {
   private productsSubject = new BehaviorSubject<Product[]>([]);
   products$ = this.productsSubject.asObservable();
 
+  // Filter for deleted products
+  deletedFilter: 'all' | 'active' | 'deleted' = 'active';
+  private filteredProductsSubject = new BehaviorSubject<Product[]>([]);
+  filteredProducts$ = this.filteredProductsSubject.asObservable();
+
   // Selected tag IDs for form
   selectedTagIds: string[] = [];
 
@@ -674,7 +763,7 @@ export class ProductsManagement implements OnInit {
   });
 
   // Sorted products stream
-  sortedProducts$ = combineLatest([this.products$, this.sortSubject]).pipe(
+  sortedProducts$ = combineLatest([this.filteredProducts$, this.sortSubject]).pipe(
     map(([products, sort]) => {
       return [...products].sort((a, b) => {
         let comparison = 0;
@@ -758,10 +847,61 @@ export class ProductsManagement implements OnInit {
 
   // Fetch products from API and update BehaviorSubject
   loadProducts() {
-    this.productService.list().pipe(
-      tap(products => this.productsSubject.next(products)),
+    this.productService.listWithDeleted().pipe(
+      tap(products => {
+        this.productsSubject.next(products);
+        this.applyDeletedFilter();
+      }),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe();
+    ).subscribe({
+      error: (err) => {
+        console.error('Error loading products:', err);
+        this.notify.error('Failed to load products. Please refresh the page.');
+      }
+    });
+  }
+
+  applyDeletedFilter(): void {
+    const allProducts = this.productsSubject.value;
+    let filtered: Product[];
+
+    switch (this.deletedFilter) {
+      case 'active':
+        filtered = allProducts.filter(p => !p.deletedAt);
+        break;
+      case 'deleted':
+        filtered = allProducts.filter(p => !!p.deletedAt);
+        break;
+      case 'all':
+      default:
+        filtered = allProducts;
+        break;
+    }
+
+    this.filteredProductsSubject.next(filtered);
+  }
+
+  onDeletedFilterChange(): void {
+    this.applyDeletedFilter();
+  }
+
+  isProductDeleted(product: Product): boolean {
+    return !!product.deletedAt;
+  }
+
+  restoreProduct(id: string): void {
+    if (confirm('Are you sure you want to restore this product?')) {
+      this.productService.restore(id).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.notify.success('Product restored successfully!');
+        },
+        error: (err) => {
+          this.notify.error('Failed to restore product. Please try again.');
+          console.error('Restore product error:', err);
+        }
+      });
+    }
   }
 
   isTagSelected(tagId: string): boolean {

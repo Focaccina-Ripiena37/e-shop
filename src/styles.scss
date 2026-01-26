@@ -78,27 +78,43 @@ body.dark-theme {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-// Snackbar notification styles
+// Snackbar notification styles - Theme-aware
 .snackbar-success {
-  --mdc-snackbar-container-color: #4caf50;
-  --mdc-snackbar-supporting-text-color: white;
-  --mat-snack-bar-button-color: white;
+  --mdc-snackbar-container-color: #4caf50 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
 }
 
 .snackbar-error {
-  --mdc-snackbar-container-color: #f44336;
-  --mdc-snackbar-supporting-text-color: white;
-  --mat-snack-bar-button-color: white;
+  --mdc-snackbar-container-color: #f44336 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
 }
 
 .snackbar-info {
-  --mdc-snackbar-container-color: #2196f3;
-  --mdc-snackbar-supporting-text-color: white;
-  --mat-snack-bar-button-color: white;
+  --mdc-snackbar-container-color: #2196f3 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
 }
 
 .snackbar-warning {
-  --mdc-snackbar-container-color: #ff9800;
-  --mdc-snackbar-supporting-text-color: white;
-  --mat-snack-bar-button-color: white;
+  --mdc-snackbar-container-color: #ff9800 !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-snack-bar-button-color: white !important;
+}
+
+// Override Material snackbar background for all themes
+.mat-mdc-snack-bar-container {
+  &.snackbar-success .mdc-snackbar__surface {
+    background-color: #4caf50 !important;
+  }
+  &.snackbar-error .mdc-snackbar__surface {
+    background-color: #f44336 !important;
+  }
+  &.snackbar-info .mdc-snackbar__surface {
+    background-color: #2196f3 !important;
+  }
+  &.snackbar-warning .mdc-snackbar__surface {
+    background-color: #ff9800 !important;
+  }
 }

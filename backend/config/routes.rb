@@ -45,7 +45,11 @@ Rails.application.routes.draw do
 
   # Admin routes
   namespace :admin do
-    resources :products, only: [:create, :update, :destroy]
+    resources :products, only: [:index, :create, :update, :destroy] do
+      member do
+        post :restore
+      end
+    end
     resources :orders, only: [:index, :update]
     resources :tags, only: [:create, :destroy]
   end

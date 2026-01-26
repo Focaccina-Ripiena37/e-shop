@@ -26,9 +26,13 @@ export class CartService {
     this.http.get<{ cart: any, items: CartItem[], total: string }>(this.baseUrl)
       .subscribe({
         next: res => this.itemsSubject.next(res.items),
-        error: () => {
-          this.itemsSubject.next([]);
-          this.errorSubject.next('Cart is not available. Please sign in to continue.');
+        error: (error) => {
+          // Errori 401 gestiti dall'interceptor (logout automatico)
+          // Altri errori: resetta carrello e mostra messaggio
+          if (error.status !== 401) {
+            this.itemsSubject.next([]);
+            this.errorSubject.next('Cart is not available. Please try again.');
+          }
         }
       });
   }

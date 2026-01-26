@@ -36,17 +36,23 @@
 ### Admin
 - 📊 **Dashboard** - Panoramica ordini e statistiche
 - 📝 **Gestione prodotti** - CRUD completo con categorie e tag
+- �️ **Soft delete prodotti** - Cancellazione logica per preservare storico ordini
+- ♻️ **Ripristino prodotti** - Recupero prodotti eliminati con filtri (Active/Deleted/All)
 - 📋 **Gestione ordini** - Aggiornamento stato ordini
 
 ### UX/UI
 - 🌓 **Dark/light mode** - Toggle tema persistente
 - 📱 **Responsive design** - Mobile-first con Material Design
 - ⚡ **Performance** - Lazy loading e caching intelligente
+- 🔔 **Notifiche toast** - Feedback utente con tema adattivo
+- 🛡️ **Error handling centralizzato** - HTTP interceptor per gestione errori (401/403/404/500)
 
 ## 🌟 Funzionalità Avanzate (Requisiti Esame)
 
 ### 1. Area admin completa
 - ✅ CRUD prodotti con categorie e tag
+- ✅ **Soft delete prodotti** - Cancellazione logica con `deleted_at` timestamp
+- ✅ **Gestione prodotti eliminati** - Filtro Active/Deleted/All + ripristino
 - ✅ Gestione ordini (cambio stato)
 - ✅ Filtro utenti attivi/inattivi
 - ✅ Protezione con guard Angular + ruolo backend
@@ -56,6 +62,13 @@
 - ✅ Lista ordini con filtri stato
 - ✅ Dettaglio completo (prodotti, quantità, prezzi, indirizzo)
 - ✅ Persistenza dati utente disattivato
+- ✅ **Integrità referenziale** - Ordini collegati a prodotti eliminati preservati
+
+### 3. Qualità del codice e sicurezza
+- ✅ **HTTP Error Interceptor** - Gestione centralizzata errori (401→logout, 403→redirect, 404/500 logging)
+- ✅ **Token validation** - Guards verificano validità JWT con logout automatico
+- ✅ **Environment separation** - Development (localhost) vs Production (Render) automatico
+- ✅ **Theme-aware notifications** - Snackbar Material Design adattivo dark/light mode
 
 ## 🛠️ Tecnologie
 
@@ -97,6 +110,17 @@ cd ..
 npm install
 ```
 
+### 4. Configurazione Environment
+
+I file di environment sono già configurati:
+
+- **Development** (`environment.development.ts`): `http://localhost:3001/api` (creato automaticamente)
+- **Production** (`environment.prod.ts`): `https://e-shop-api-ob96.onrender.com/api`
+
+Angular usa automaticamente `development` per `npm start` e `production` per `npm run build`.
+
+> ⚠️ **Nota**: Non committare `environment.prod.ts` con credenziali reali. Usa variabili d'ambiente su Render.
+
 ## 🚀 Avvio
 
 ### Sviluppo (2 terminali)
@@ -118,11 +142,11 @@ Visita **http://localhost:4200**
 
 | Email | Password | Ruolo | Note |
 |-------|----------|-------|------|
-| admin@test.com | password123 | Admin | Accesso dashboard admin |
-| marco.rossi@email.it | password123 | User | 2 ordini completati |
-| giulia.bianchi@email.it | password123 | User | 2 ordini (1 processing) |
-| alessandro.ferrari@email.it | password123 | User | 2 ordini |
-| stefano.colombo@email.it | password123 | **Inattivo** | Account disattivato con 1 ordine |
+| admin@test.com | password | Admin | Accesso dashboard admin + gestione prodotti eliminati |
+| marco.rossi@email.it | password | User | 2 ordini completati |
+| giulia.bianchi@email.it | password | User | 2 ordini (1 processing) |
+| alessandro.ferrari@email.it | password | User | 2 ordini |
+| stefano.colombo@email.it | password | **Inattivo** | Account disattivato con 1 ordine |
 
 ## 🐳 Docker
 
@@ -222,12 +246,17 @@ La documentazione delle API è disponibile in formato OpenAPI:
 
 | Metodo | Endpoint | Descrizione | Auth |
 |--------|----------|-------------|------|
-| GET | `/api/products` | Lista prodotti | No |
+| GET | `/api/products` | Lista prodotti attivi | No |
 | GET | `/api/products/:id` | Dettaglio prodotto | No |
 | POST | `/api/login` | Login utente | No |
 | POST | `/api/signup` | Registrazione | No |
 | GET | `/api/cart` | Carrello utente | JWT |
 | POST | `/api/orders` | Crea ordine | JWT |
+| GET | `/api/admin/products` | Lista prodotti (inclusi eliminati) | JWT+Admin |
+| POST | `/api/admin/products` | Crea prodotto | JWT+Admin |
+| PUT | `/api/admin/products/:id` | Aggiorna prodotto | JWT+Admin |
+| DELETE | `/api/admin/products/:id` | Soft delete prodotto | JWT+Admin |
+| POST | `/api/admin/products/:id/restore` | Ripristina prodotto eliminato | JWT+Admin |
 | GET | `/api/admin/orders` | Lista ordini (admin) | JWT+Admin |
 
 ## 🧪 Testing
