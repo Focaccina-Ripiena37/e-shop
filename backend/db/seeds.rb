@@ -3,6 +3,10 @@ puts "Seeding database..."
 
 # Clear existing data (for clean reset)
 puts "Clearing existing data..."
+OrderItem.destroy_all
+Order.destroy_all
+CartItem.destroy_all
+Cart.destroy_all
 ProductTag.destroy_all
 Product.destroy_all
 Tag.destroy_all

@@ -91,10 +91,39 @@
 
 ## 💻 Installazione
 
+### Opzione 1: Docker (Consigliato) 🐳
+
+**Requisiti:**
+- Docker Desktop
+- File `.env` (fornito separatamente)
+
+**Setup:**
+```bash
+git clone https://github.com/tuouser/e-shop.git
+cd e-shop
+# Copia il file .env nella root (ricevuto via email)
+docker compose up
+# Primo avvio: popola database
+docker exec eshop-backend bundle exec rails db:seed
+```
+
+✅ **Vai subito a http://localhost:4200**
+
+---
+
+### Opzione 2: Installazione Manuale
+
+**Requisiti:**
+- Node.js >= 24.12
+- Ruby >= 3.3.10  
+- PostgreSQL >= 14
+- File `.env` (fornito separatamente)
+
 ### 1. Clone del repository
 ```bash
 git clone https://github.com/tuouser/e-shop.git
 cd e-shop
+# Copia il file .env nella root
 ```
 
 ### 2. Setup Backend
@@ -148,18 +177,47 @@ Visita **http://localhost:4200**
 | alessandro.ferrari@email.it | password | User | 2 ordini |
 | stefano.colombo@email.it | password | **Inattivo** | Account disattivato con 1 ordine |
 
-## 🐳 Docker
+## 🐳 Docker (Setup Rapido)
 
-Avvia l'intera applicazione con Docker Compose:
+### Avvio con Docker Compose (Consigliato per il Prof)
 
+**Setup iniziale (una tantum):**
+1. Assicurati di avere il file `.env` nella root del progetto (fornito via email)
+2. Avvia Docker Desktop
+
+**Avvio applicazione:**
 ```bash
-docker-compose up --build
+docker compose up
 ```
 
-Servizi disponibili:
-- Frontend: http://localhost:4200
-- Backend API: http://localhost:3001
-- PostgreSQL: localhost:5432
+**Primo avvio - Popola database (solo la prima volta):**
+```bash
+# In un altro terminale mentre Docker è in esecuzione
+docker exec eshop-backend bundle exec rails db:seed
+```
+
+### Accesso all'applicazione
+
+- **Frontend (sito e-shop):** http://localhost:4200
+- **Backend API:** http://localhost:3001
+- **Database PostgreSQL:** localhost:5432
+
+### Comandi utili
+
+```bash
+# Avvia in background
+docker compose up -d
+
+# Ferma tutto
+docker compose down
+
+# Ricostruisci immagini (dopo modifiche al codice)
+docker compose up --build
+
+# Vedi log in tempo reale
+docker logs eshop-backend -f
+docker logs eshop-frontend -f
+```
 
 **Nota:** Docker è utilizzato **solo per sviluppo locale**. Il deployment su Render non usa Docker ma i runtime nativi di Render.
 

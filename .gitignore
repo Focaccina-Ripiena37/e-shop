@@ -52,6 +52,8 @@ Thumbs.db
 
 # Environment files (keep environment.ts template, ignore secrets)
 /src/environments/environment.local.ts
+.env
+!.env.example
 
 # Personal notes (not for professor)
 /brain
@@ -74,11 +76,13 @@ Thumbs.db
 # Note: environment.development.ts is tracked (localhost only)
 # Note: environment.prod.ts contains Render URL (safe to commit)
 
-# Backend environment secrets
+# Backend environment secrets  
 /.env
 /backend/.env
 /backend/.env.local
 /backend/.env.production
+.env
+!.env.example
 
 # Documentation files (if too large)
 # ADMIN_DELETED_PRODUCTS.md
