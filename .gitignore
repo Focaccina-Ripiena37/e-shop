@@ -55,10 +55,13 @@ Thumbs.db
 .env
 !.env.example
 
-# Personal notes (not for professor)
-/brain
-/notes
+# Internal documentation (not for public)
+TESTING.md
+PIANO_PROGETTO.md
+brain/
+notes/
 *.todo
+*.draft
 
 # Mock API (not needed - using real Rails backend)
 /shop-mock-api
@@ -73,8 +76,6 @@ Thumbs.db
 
 # Frontend environment files
 /src/environments/*.local.ts
-# Note: environment.development.ts is tracked (localhost only)
-# Note: environment.prod.ts contains Render URL (safe to commit)
 
 # Backend environment secrets  
 /.env
@@ -84,6 +85,7 @@ Thumbs.db
 .env
 !.env.example
 
-# Documentation files (if too large)
-# ADMIN_DELETED_PRODUCTS.md
-# SOFT_DELETE_DOCUMENTATION.md
+# Claude/AI artifacts
+.claude/
+.cursor/
+*.ai.md
