@@ -27,8 +27,7 @@ export class CartService {
       .subscribe({
         next: res => this.itemsSubject.next(res.items),
         error: (error) => {
-          // Errori 401 gestiti dall'interceptor (logout automatico)
-          // Altri errori: resetta carrello e mostra messaggio
+          // Errors 401 are handled by the auth interceptor
           if (error.status !== 401) {
             this.itemsSubject.next([]);
             this.errorSubject.next('Cart is not available. Please try again.');

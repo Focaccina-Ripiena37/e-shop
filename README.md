@@ -86,8 +86,18 @@
 - **npm** >= 11.6
 - **Ruby** >= 3.3.10
 - **Rails** >= 8.1.1
-- **PostgreSQL** >= 14 (produzione)
+- **PostgreSQL** >= 14 (Linux/Mac/produzione)
+- **SQLite** (Windows - auto-installato)
 - **Docker** (opzionale)
+
+### 🗄️ Database Auto-Detection
+
+Il progetto supporta **entrambi PostgreSQL e SQLite** con rilevamento automatico del sistema operativo:
+
+- **Windows** → SQLite (nessuna configurazione PostgreSQL necessaria)
+- **Linux/Mac** → PostgreSQL (credenziali in `database.yml`)
+
+Entrambe le gem sono nel `Gemfile`, Rails seleziona automaticamente l'adapter corretto tramite `RUBY_PLATFORM` detection in `database.yml`. Questo permette di clonare la repo su qualsiasi OS senza modifiche manuali.
 
 ## 💻 Installazione
 

@@ -12,21 +12,33 @@
 # Configure Using Gemfile
 # gem "pg"
 #
+# Auto-detect database based on OS
+<% if RUBY_PLATFORM.match?(/mingw|mswin|windows/) %>
+  # Windows: use SQLite
+default: &default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: storage/development.sqlite3
+
+<% else %>
+  # Linux/Mac: use PostgreSQL
 default: &default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
   database: eshop_development
-  username: eshop
-  password: eshop_password
+  username: <%= ENV.fetch("DB_USERNAME") { "eshop" } %>
+  password: <%= ENV.fetch("DB_PASSWORD") { "eshop_password" } %>
   host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
   port: 5432
+<% end %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
