@@ -5,13 +5,13 @@ import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 /**
- * HTTP Error Interceptor - Gestisce errori HTTP centralizzati
+ * HTTP Error Interceptor - Handles centralized HTTP errors
  * 
- * Gestisce:
- * - 401 Unauthorized: logout automatico e redirect a login
- * - 403 Forbidden: redirect alla home
- * - 404 Not Found: log dell'errore
- * - 500+ Server Errors: log dell'errore
+ * Handles:
+ * - 401 Unauthorized: automatic logout and redirect to login
+ * - 403 Forbidden: redirect to home
+ * - 404 Not Found: error logging
+ * - 500+ Server Errors: error logging
  */
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
     const router = inject(Router);
@@ -19,7 +19,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
-            // Log dettagliato per debugging
+            // Detailed log for debugging
             console.error(`HTTP Error ${error.status}:`, {
                 url: req.url,
                 method: req.method,
@@ -27,10 +27,10 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                 error: error.error
             });
 
-            // Gestione errori specifici
+            // Handle specific errors
             switch (error.status) {
                 case 401:
-                    // Token scaduto o invalido: logout e redirect a login
+                    // Expired or invalid token: logout and redirect to login
                     console.warn('401 Unauthorized - Logging out user');
                     authService.logout();
                     router.navigate(['/login'], {
@@ -39,18 +39,18 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     break;
 
                 case 403:
-                    // Forbidden: utente non autorizzato per questa risorsa
+                    // Forbidden: user not authorized for this resource
                     console.warn('403 Forbidden - Redirecting to home');
                     router.navigate(['/products']);
                     break;
 
                 case 404:
-                    // Not Found: risorsa non esistente
+                    // Not Found: resource does not exist
                     console.warn('404 Not Found:', req.url);
                     break;
 
                 case 0:
-                    // Network error o server non raggiungibile
+                    // Network error or server unreachable
                     console.error('Network error: Server unreachable');
                     break;
 

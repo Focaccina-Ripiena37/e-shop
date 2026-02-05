@@ -3,15 +3,15 @@ import { Router, CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 /**
- * Admin Guard - Protegge le route riservate agli amministratori
- * Verifica sia l'autenticazione che il ruolo admin
+ * Admin Guard - Protects routes reserved for administrators
+ * Verifies both authentication and admin role
  */
 export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const token = authService.getToken();
 
-  // Verifica autenticazione
+  // Verify authentication
   if (!token || !authService.isAuthenticated()) {
     authService.logout();
     return router.createUrlTree(['/login'], {
@@ -19,7 +19,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     });
   }
 
-  // Verifica ruolo admin
+  // Verify admin role
   if (authService.isAdmin) {
     return true;
   }

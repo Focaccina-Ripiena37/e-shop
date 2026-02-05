@@ -11,24 +11,24 @@ class Product < ApplicationRecord
 
   serialize :images, coder: JSON
 
-  # Soft delete: mostra solo prodotti non cancellati
+  # Soft delete: show only non-deleted products
   default_scope { where(deleted_at: nil) }
   
-  # Scope per includere anche i prodotti cancellati (per admin/storico)
+  # Scope to include deleted products (for admin/history)
   scope :with_deleted, -> { unscope(where: :deleted_at) }
   scope :only_deleted, -> { unscope(where: :deleted_at).where.not(deleted_at: nil) }
 
-  # Override destroy per soft delete
+  # Override destroy for soft delete
   def destroy
     update(deleted_at: Time.current)
   end
 
-  # Ripristina prodotto cancellato
+  # Restore deleted product
   def restore
     update(deleted_at: nil)
   end
 
-  # Verifica se il prodotto è cancellato
+  # Check if product is deleted
   def deleted?
     deleted_at.present?
   end

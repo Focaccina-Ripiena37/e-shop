@@ -5,8 +5,8 @@ import { CartService } from '../services/cart.service';
 import { map, take } from 'rxjs';
 
 /**
- * Checkout Guard - Protegge la route del checkout
- * Verifica autenticazione e che il carrello non sia vuoto
+ * Checkout Guard - Protects the checkout route
+ * Verifies authentication and that the cart is not empty
  */
 export const checkoutGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const auth = inject(AuthService);
@@ -14,7 +14,7 @@ export const checkoutGuard: CanActivateFn = (route: ActivatedRouteSnapshot, stat
     const cart = inject(CartService);
     const token = auth.getToken();
 
-    // Verifica autenticazione e token valido
+    // Verify authentication and valid token
     if (!token || !auth.isAuthenticated()) {
         auth.logout();
         return router.createUrlTree(['/login'], {
