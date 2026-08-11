@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { NgIf, TitleCasePipe, AsyncPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -123,6 +123,7 @@ export class HeaderComponent {
   private cartService = inject(CartService);
   readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
+  private router = inject(Router);
 
   cartCount$ = this.cartService.count$;
   isLoggedIn$ = this.authService.isLoggedIn$;
@@ -130,5 +131,6 @@ export class HeaderComponent {
 
   onLogout(): void {
     this.authService.logout();
+    this.router.navigate(['/products']);
   }
 }

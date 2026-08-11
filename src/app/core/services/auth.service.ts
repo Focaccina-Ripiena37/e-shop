@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { User, AuthResponse, LoginRequest } from '../models/user';
 import { environment } from '../../../environments/environment';
@@ -8,7 +7,6 @@ import { environment } from '../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
-  private router = inject(Router);
 
   private baseUrl = environment.apiUrl;
   private TOKEN_KEY = 'auth_token';
@@ -75,11 +73,10 @@ export class AuthService {
         .delete<void>(`${this.baseUrl}/logout`, { headers: { Authorization: `Bearer ${token}` } })
         .subscribe({ error: () => {} });
     }
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-    this.currentUserSubject.next(null);
-    this.router.navigate(['/products']);
-  }
+localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.USER_KEY);
+      this.currentUserSubject.next(null);
+    }
 
   // Returns the JWT token
   getToken(): string | null {
