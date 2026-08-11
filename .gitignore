@@ -82,3 +82,12 @@ notes/
 .claude/
 .cursor/
 *.ai.md
+
+# Agent/opencode config (not public)
+AGENTS.md
+opencode.json
+opencode.jsonc
+.opencode/
+
+# Exam specifications (not public)
+Specifiche_Esame_Progetto.md
