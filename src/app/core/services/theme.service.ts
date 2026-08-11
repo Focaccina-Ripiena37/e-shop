@@ -31,11 +31,6 @@ export class ThemeService {
     this.theme.update(current => current === 'light' ? 'dark' : 'light');
   }
 
-  /** Set a specific theme */
-  setTheme(theme: 'light' | 'dark'): void {
-    this.theme.set(theme);
-  }
-
   /** Get initial theme from localStorage or system preference */
   private getInitialTheme(): 'light' | 'dark' {
     if (isPlatformBrowser(this.platformId)) {

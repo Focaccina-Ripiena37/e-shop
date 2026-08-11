@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
-import { User, AuthResponse, LoginRequest, SignupRequest } from '../models/user';
+import { User, AuthResponse, LoginRequest } from '../models/user';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -21,11 +21,6 @@ export class AuthService {
   // Observable derivato per stato login
   isLoggedIn$ = this.currentUser$.pipe(map(user => !!user));
 
-  // Synchronous getter for guards compatibility
-  get isLoggedIn(): boolean {
-    return !!this.currentUserSubject.value;
-  }
-
   get currentUser(): User | null {
     return this.currentUserSubject.value;
   }
@@ -39,17 +34,6 @@ export class AuthService {
   login(email: string, password: string): Observable<AuthResponse> {
     const payload: LoginRequest = { user: { email, password } };
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, payload).pipe(
-      tap(response => this.setSession(response))
-    );
-  }
-
-
-  // Signup new user
-  signup(email: string, password: string, passwordConfirmation: string): Observable<AuthResponse> {
-    const payload: SignupRequest = {
-      user: { email, password, password_confirmation: passwordConfirmation }
-    };
-    return this.http.post<AuthResponse>(`${this.baseUrl}/signup`, payload).pipe(
       tap(response => this.setSession(response))
     );
   }
@@ -83,8 +67,14 @@ export class AuthService {
     );
   }
 
-  // Logout user
+  // Logout user - revokes the token server-side (fire-and-forget) and clears the session
   logout(): void {
+    const token = this.getToken();
+    if (token) {
+      this.http
+        .delete<void>(`${this.baseUrl}/logout`, { headers: { Authorization: `Bearer ${token}` } })
+        .subscribe({ error: () => {} });
+    }
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.currentUserSubject.next(null);

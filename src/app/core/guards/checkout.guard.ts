@@ -1,25 +1,23 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
 import { map, take } from 'rxjs';
+import { requireAuth } from './guard-utils';
 
 /**
  * Checkout Guard - Protects the checkout route
  * Verifies authentication and that the cart is not empty
  */
-export const checkoutGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const checkoutGuard: CanActivateFn = (_route, state) => {
     const auth = inject(AuthService);
     const router = inject(Router);
     const cart = inject(CartService);
-    const token = auth.getToken();
 
-    // Verify authentication and valid token
-    if (!token || !auth.isAuthenticated()) {
-        auth.logout();
-        return router.createUrlTree(['/login'], {
-            queryParams: { returnUrl: state.url }
-        });
+    // Verify authentication
+    const redirect = requireAuth(router, auth, state);
+    if (redirect) {
+        return redirect;
     }
 
     // Block checkout when cart is empty

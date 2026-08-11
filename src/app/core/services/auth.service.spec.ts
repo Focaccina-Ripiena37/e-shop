@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { AuthService } from './auth.service';
 import { environment } from '../../../environments/environment';
+
+class EmptyRouteComponent {}
 
 describe('AuthService', () => {
     let service: AuthService;
@@ -10,8 +12,11 @@ describe('AuthService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, RouterTestingModule],
-            providers: [AuthService]
+            imports: [HttpClientTestingModule],
+            providers: [
+                AuthService,
+                provideRouter([{ path: 'products', component: EmptyRouteComponent }])
+            ]
         });
         service = TestBed.inject(AuthService);
         httpMock = TestBed.inject(HttpTestingController);
@@ -63,30 +68,48 @@ describe('AuthService', () => {
         });
     });
 
-    describe('signup', () => {
-        it('should POST to /signup with user data', () => {
+    describe('signupWithProfile', () => {
+        it('should POST to /signup with profile data', () => {
             const mockResponse = {
                 token: 'new-user-token',
                 user: { id: 2, email: 'new@example.com', admin: false }
             };
 
-            service.signup('new@example.com', 'password123', 'password123').subscribe(response => {
+            service.signupWithProfile('new@example.com', 'password123', 'password123', {
+                first_name: 'Jane',
+                last_name: 'Doe'
+            }).subscribe(response => {
                 expect(response.token).toBe('new-user-token');
             });
 
             const req = httpMock.expectOne(`${environment.apiUrl}/signup`);
             expect(req.request.method).toBe('POST');
             expect(req.request.body.user.email).toBe('new@example.com');
+            expect(req.request.body.user.first_name).toBe('Jane');
             req.flush(mockResponse);
         });
     });
 
     describe('logout', () => {
-        it('should clear token and user from localStorage', () => {
+        it('should revoke the token server-side and clear localStorage', () => {
             localStorage.setItem('auth_token', 'some-token');
             localStorage.setItem('current_user', JSON.stringify({ id: 1 }));
 
             service.logout();
+
+            const req = httpMock.expectOne(`${environment.apiUrl}/logout`);
+            expect(req.request.method).toBe('DELETE');
+            expect(req.request.headers.get('Authorization')).toBe('Bearer some-token');
+            req.flush(null, { status: 204, statusText: 'No Content' });
+
+            expect(localStorage.getItem('auth_token')).toBeNull();
+            expect(localStorage.getItem('current_user')).toBeNull();
+        });
+
+        it('should clear localStorage without API call when no token exists', () => {
+            service.logout();
+
+            httpMock.expectNone(`${environment.apiUrl}/logout`);
 
             expect(localStorage.getItem('auth_token')).toBeNull();
             expect(localStorage.getItem('current_user')).toBeNull();
@@ -105,22 +128,21 @@ describe('AuthService', () => {
     });
 
     describe('isAdmin', () => {
-        it('should return true for admin user', () => {
-            const adminUser = { id: 1, email: 'admin@test.com', admin: true };
-            localStorage.setItem('current_user', JSON.stringify(adminUser));
-            
-            // Re-initialize service to pick up stored user
-            service = TestBed.inject(AuthService);
-            
+        it('should return true for admin user after login', () => {
+            service.login('admin@test.com', 'password123').subscribe();
+
+            const req = httpMock.expectOne(`${environment.apiUrl}/login`);
+            req.flush({ token: 't', user: { id: 1, email: 'admin@test.com', admin: true } });
+
             expect(service.isAdmin).toBe(true);
         });
 
-        it('should return false for non-admin user', () => {
-            const regularUser = { id: 2, email: 'user@test.com', admin: false };
-            localStorage.setItem('current_user', JSON.stringify(regularUser));
-            
-            service = TestBed.inject(AuthService);
-            
+        it('should return false for non-admin user after login', () => {
+            service.login('user@test.com', 'password123').subscribe();
+
+            const req = httpMock.expectOne(`${environment.apiUrl}/login`);
+            req.flush({ token: 't', user: { id: 2, email: 'user@test.com', admin: false } });
+
             expect(service.isAdmin).toBe(false);
         });
     });

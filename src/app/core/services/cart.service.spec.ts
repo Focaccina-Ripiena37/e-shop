@@ -1,15 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { firstValueFrom } from 'rxjs';
 import { CartService } from './cart.service';
+import { CartItem } from '../models/cart-item';
 import { environment } from '../../../environments/environment';
 
 describe('CartService', () => {
     let service: CartService;
     let httpMock: HttpTestingController;
 
-    const mockCartItems = [
-        { id: 1, product_id: 101, quantity: 2, unit_price: '29.99', product: { id: 101, title: 'Product 1' } },
-        { id: 2, product_id: 102, quantity: 1, unit_price: '49.99', product: { id: 102, title: 'Product 2' } }
+    const makeProduct = (id: string, title: string, price: number) => ({
+        id,
+        title,
+        description: '',
+        price,
+        originalPrice: 0,
+        sale: false,
+        createdAt: '2026-01-01'
+    });
+
+    const mockCartItems: CartItem[] = [
+        { id: 1, product: makeProduct('101', 'Product 1', 29.99), quantity: 2, unit_price: '29.99' },
+        { id: 2, product: makeProduct('102', 'Product 2', 49.99), quantity: 1, unit_price: '49.99' }
     ];
 
     beforeEach(() => {
@@ -39,52 +51,56 @@ describe('CartService', () => {
 
             service.items$.subscribe(items => {
                 expect(items.length).toBe(2);
-                expect(items[0].product_id).toBe(101);
+                expect(items[0].product.id).toBe('101');
+                expect(items[0].quantity).toBe(2);
             });
         });
     });
 
     describe('addToCart', () => {
-        it('should POST to /cart/items', () => {
-            const updatedCart = { items: [...mockCartItems, { id: 3, product_id: 103, quantity: 1 }] };
-
+        it('should POST to /cart/items and reload the cart', () => {
             service.addToCart(103, 1).subscribe();
 
-            const req = httpMock.expectOne(`${environment.apiUrl}/cart/items`);
-            expect(req.request.method).toBe('POST');
-            expect(req.request.body).toEqual({ product_id: 103, quantity: 1 });
-            req.flush(updatedCart);
+            const postReq = httpMock.expectOne(`${environment.apiUrl}/cart/items`);
+            expect(postReq.request.method).toBe('POST');
+            expect(postReq.request.body).toEqual({ product_id: 103, quantity: 1 });
+            postReq.flush({ items: mockCartItems });
+
+            const getReq = httpMock.expectOne(`${environment.apiUrl}/cart`);
+            expect(getReq.request.method).toBe('GET');
+            getReq.flush({ items: mockCartItems });
         });
     });
 
-    describe('removeFromCart', () => {
-        it('should DELETE /cart/items/:id', () => {
-            service.removeFromCart(1).subscribe();
+    describe('removeItem', () => {
+        it('should DELETE /cart/items/:id and reload the cart', () => {
+            service.removeItem(1).subscribe();
 
-            const req = httpMock.expectOne(`${environment.apiUrl}/cart/items/1`);
-            expect(req.request.method).toBe('DELETE');
-            req.flush({ items: [mockCartItems[1]] });
+            const deleteReq = httpMock.expectOne(`${environment.apiUrl}/cart/items/1`);
+            expect(deleteReq.request.method).toBe('DELETE');
+            deleteReq.flush({ items: [mockCartItems[1]] });
+
+            const getReq = httpMock.expectOne(`${environment.apiUrl}/cart`);
+            getReq.flush({ items: [mockCartItems[1]] });
         });
     });
 
     describe('count$', () => {
-        it('should emit total quantity of items', (done) => {
+        it('should emit total quantity of items', async () => {
             service.loadCart();
 
             const req = httpMock.expectOne(`${environment.apiUrl}/cart`);
             req.flush({ items: mockCartItems });
 
-            service.count$.subscribe(count => {
-                expect(count).toBe(3); // 2 + 1
-                done();
-            });
+            const count = await firstValueFrom(service.count$);
+            expect(count).toBe(3); // 2 + 1
         });
     });
 
     describe('clear', () => {
         it('should reset items to empty array', () => {
             service.clear();
-            
+
             service.items$.subscribe(items => {
                 expect(items).toEqual([]);
             });
