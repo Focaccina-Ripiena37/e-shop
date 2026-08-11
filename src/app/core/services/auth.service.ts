@@ -86,10 +86,23 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
- 
-  // Checks whether the user is authenticated
+  // Checks whether the user is authenticated (token present and not expired)
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    return token !== null && !this.isTokenExpired(token);
+  }
+
+  // Decodes the JWT payload and checks the `exp` claim against the current time
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(
+        atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))
+      );
+      return typeof payload.exp === 'number' && payload.exp * 1000 <= Date.now();
+    } catch {
+      // Malformed token - treat as not authenticated
+      return true;
+    }
   }
 
   // Save token and user to localStorage + update BehaviorSubject

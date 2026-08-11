@@ -78,6 +78,17 @@ body.dark-theme {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+// App toolbar with a warm gradient accent (blue -> violet -> pink)
+.app-toolbar.mat-toolbar {
+  background-image: linear-gradient(135deg, #1565c0 0%, #6a1b9a 55%, #ad1457 100%);
+  background-color: transparent;
+}
+
+// Dark theme variant with muted gradient tones
+body.dark-theme .app-toolbar.mat-toolbar {
+  background-image: linear-gradient(135deg, #0d2b52 0%, #3b1b5e 55%, #5c1231 100%);
+}
+
 // Snackbar notification styles - Theme-aware
 .snackbar-success {
   --mdc-snackbar-container-color: #4caf50 !important;

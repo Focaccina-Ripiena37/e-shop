@@ -117,12 +117,26 @@ describe('AuthService', () => {
     });
 
     describe('isAuthenticated', () => {
-        it('should return true when token exists', () => {
-            localStorage.setItem('auth_token', 'valid-token');
+        it('should return true when a non-expired token exists', () => {
+            const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+            const payload = btoa(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + 3600 }));
+            localStorage.setItem('auth_token', `${header}.${payload}.signature`);
             expect(service.isAuthenticated()).toBe(true);
         });
 
         it('should return false when no token', () => {
+            expect(service.isAuthenticated()).toBe(false);
+        });
+
+        it('should return false for an expired token', () => {
+            const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+            const expiredPayload = btoa(JSON.stringify({ exp: Math.floor(Date.now() / 1000) - 3600 }));
+            localStorage.setItem('auth_token', `${header}.${expiredPayload}.signature`);
+            expect(service.isAuthenticated()).toBe(false);
+        });
+
+        it('should return false for a malformed token', () => {
+            localStorage.setItem('auth_token', 'not-a-jwt');
             expect(service.isAuthenticated()).toBe(false);
         });
     });

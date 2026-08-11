@@ -121,4 +121,14 @@ section {
 .error-message {
     color: red;
     margin-bottom: 1rem;
+    padding: 1rem;
+    background: #ffebee;
+    border-radius: 4px;
+    border: 1px solid #ef9a9a;
+
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
 }

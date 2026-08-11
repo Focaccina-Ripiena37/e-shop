@@ -3,11 +3,14 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - name: Checkout code
@@ -20,12 +23,15 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
-      
+
       - name: Scan for known security vulnerabilities in gems used
         run: bin/bundler-audit
-      
+
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     env:
       RUBOCOP_CACHE_ROOT: tmp/rubocop
     steps:
@@ -49,4 +55,3 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
-

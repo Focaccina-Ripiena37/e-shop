@@ -43,8 +43,12 @@
         </div>
     </div>
 
-    <div *ngIf="orderError" class="error-message">
+    <div *ngIf="orderError" class="error-message" role="alert">
         <p>There was an error submitting the order. Please try again.</p>
+        <div class="error-actions">
+            <button mat-raised-button color="warn" type="button" (click)="onSubmit()">Try again</button>
+            <button mat-button routerLink="/cart">Back to cart</button>
+        </div>
     </div>
 
     <!-- Checkout form -->

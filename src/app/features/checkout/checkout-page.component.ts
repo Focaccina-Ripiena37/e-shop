@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { Order, BillingAddress } from '../../core/models/order';
 import { CartItem } from '../../core/models/cart-item';
 import { map, take, combineLatest } from 'rxjs';
+
+// Single source of truth for shipping options (mirrors the backend pricing)
+const SHIPPING_COSTS: Record<string, number> = { standard: 3.99, premium: 9.99 };
 
 @Component({
     selector: 'app-checkout-page',
@@ -33,7 +36,7 @@ import { map, take, combineLatest } from 'rxjs';
     templateUrl: './checkout-page.html',
     styleUrls: ['./checkout-page.scss']
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent implements OnInit, AfterViewInit {
     private fb = inject(FormBuilder);
     private cart = inject(CartService);
     private orderService = inject(OrderService);
@@ -111,8 +114,8 @@ export class CheckoutPageComponent implements OnInit {
     // Shipping cost based on selected method
     readonly shippingCost$ = this.form.valueChanges.pipe(
         map(() => {
-            const method = this.form.get('shippingMethod')?.value;
-            return method === 'premium' ? 9.99 : 3.99;
+            const method = this.form.get('shippingMethod')?.value ?? 'standard';
+            return SHIPPING_COSTS[method] ?? SHIPPING_COSTS['standard'];
         })
     );
 
@@ -210,31 +213,7 @@ export class CheckoutPageComponent implements OnInit {
                 return;
             }
 
-            // Extract last 4 digits of card number (remove spaces first)
-            const cardNumber = (value.payment?.cardNumber || '').replace(/\s+/g, '');
-            const cardLast4 = cardNumber.slice(-4);
-
-            // Get shipping type and cost
-            const shippingType = value.shippingMethod || 'standard';
-            const shippingCost = shippingType === 'premium' ? 9.99 : 3.99;
-
-            const order: Order = {
-                customer: value.customer as any,
-                address: value.address as any,
-                payment_method: value.payment?.method || 'credit_card',
-                card_brand: value.payment?.cardBrand || undefined,
-                card_last4: cardLast4,
-                shipping_type: shippingType,
-                shipping_cost: shippingCost,
-                billing_address: {
-                    full_name: value.billing?.fullName || '',
-                    street: value.billing?.street || '',
-                    city: value.billing?.city || '',
-                    zip: value.billing?.zip || '',
-                    country: value.billing?.country || '',
-                    vat_number: value.billing?.vatNumber || undefined
-                } as BillingAddress
-            };
+            const order = this.buildOrder(value);
 
             this.orderService.create(order).subscribe({
                 next: (created) => {
@@ -250,6 +229,30 @@ export class CheckoutPageComponent implements OnInit {
                 }
             });
         });
+    }
+
+    // Builds the order payload from the raw form value
+    private buildOrder(value: ReturnType<typeof this.form.getRawValue>): Order {
+        const cardNumber = (value.payment?.cardNumber || '').replace(/\s+/g, '');
+        const shippingType = value.shippingMethod || 'standard';
+
+        return {
+            customer: value.customer as any,
+            address: value.address as any,
+            payment_method: value.payment?.method || 'credit_card',
+            card_brand: value.payment?.cardBrand || undefined,
+            card_last4: cardNumber.slice(-4),
+            shipping_type: shippingType,
+            shipping_cost: SHIPPING_COSTS[shippingType] ?? SHIPPING_COSTS['standard'],
+            billing_address: {
+                full_name: value.billing?.fullName || '',
+                street: value.billing?.street || '',
+                city: value.billing?.city || '',
+                zip: value.billing?.zip || '',
+                country: value.billing?.country || '',
+                vat_number: value.billing?.vatNumber || undefined
+            } as BillingAddress
+        };
     }
 
     // Move focus to the first invalid control for accessibility
