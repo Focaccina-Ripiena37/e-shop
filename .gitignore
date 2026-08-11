@@ -1,5 +1,3 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
 # Compiled output
 /dist
 /tmp
@@ -10,7 +8,10 @@
 /node_modules
 npm-debug.log
 yarn-error.log
-package-lock.json
+
+# Angular cache
+/.angular
+/.angular/cache
 
 # IDEs and editors
 .idea/
@@ -30,10 +31,8 @@ package-lock.json
 .history/*
 
 # Miscellaneous
-/.angular/cache
 .sass-cache/
 /connect.lock
-/coverage
 /libpeerconnection.log
 testem.log
 /typings
@@ -52,8 +51,12 @@ Thumbs.db
 
 # Environment files (keep environment.ts template, ignore secrets)
 /src/environments/environment.local.ts
+/src/environments/*.local.ts
 .env
 !.env.example
+/backend/.env
+/backend/.env.local
+/backend/.env.production
 
 # Internal documentation (not for public)
 TESTING.md
@@ -69,21 +72,11 @@ notes/
 # Public folder (generated/uploaded files)
 /public/uploads
 
-# Angular build artifacts
-/.angular
-/dist
-/tmp
-
-# Frontend environment files
-/src/environments/*.local.ts
-
-# Backend environment secrets  
-/.env
-/backend/.env
-/backend/.env.local
-/backend/.env.production
-.env
-!.env.example
+# E2E (Playwright) artifacts
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache
 
 # Claude/AI artifacts
 .claude/

@@ -1,10 +1,7 @@
 # Stage 1: Development
-FROM node:20-alpine
+FROM node:24-alpine
 
 WORKDIR /app
-
-# Install Angular CLI globally
-RUN npm install -g @angular/cli@21
 
 # Copy package files
 COPY package*.json ./

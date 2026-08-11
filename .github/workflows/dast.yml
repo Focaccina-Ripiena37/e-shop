@@ -37,4 +37,7 @@ jobs:
 
       - name: Stop services
         if: always()
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: docker compose down -v
