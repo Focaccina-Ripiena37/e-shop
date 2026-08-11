@@ -1,5 +1,5 @@
-// Production environment (Render deploy)
+// Production environment (local/docker stack)
 export const environment = {
   production: true,
-  apiUrl: 'https://e-shop-api-ob96.onrender.com/api'
+  apiUrl: 'http://localhost:3001/api'
 };

@@ -201,9 +201,9 @@ docker-compose up
 ```
 
 ### 8.3 Produzione
-- Frontend: Build statico su CDN/Nginx
-- Backend: Puma su Heroku/Railway/Render
-- Database: PostgreSQL managed
+- Frontend: Build statico servito da `dist/shop/browser` (SSR opzionale via `npm run serve:ssr:shop`)
+- Backend: Puma in container Docker (o localmente)
+- Database: PostgreSQL (container Docker)
 
 ## 9. Funzionalità Avanzate Implementate
 

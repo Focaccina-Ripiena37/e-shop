@@ -17,7 +17,7 @@
 - [Installazione](#-installazione)
 - [Avvio](#-avvio)
 - [Docker](#-docker)
-- [Deployment](#-deployment)
+- [Build di produzione](#-build-di-produzione)
 - [API Documentation](#-api-documentation)
 - [Testing](#-testing)
 - [Struttura Progetto](#-struttura-progetto)
@@ -67,7 +67,7 @@
 ### 3. Qualità del codice e sicurezza
 - ✅ **HTTP Error Interceptor** - Gestione centralizzata errori (401→logout, 403→redirect, 404/500 logging)
 - ✅ **Token validation** - Guards verificano validità JWT con logout automatico
-- ✅ **Environment separation** - Development (localhost) vs Production (Render) automatico
+- ✅ **Environment separation** - Development (localhost) vs Production automatico
 - ✅ **Theme-aware notifications** - Snackbar Material Design adattivo dark/light mode
 
 ## 🛠️ Tecnologie
@@ -154,11 +154,9 @@ npm install
 I file di environment sono già configurati:
 
 - **Development** (`environment.development.ts`): `http://localhost:3001/api` (creato automaticamente)
-- **Production** (`environment.prod.ts`): `https://e-shop-api-ob96.onrender.com/api`
+- **Production** (`environment.prod.ts`): `http://localhost:3001/api` (stack locale/docker)
 
 Angular usa automaticamente `development` per `npm start` e `production` per `npm run build`.
-
-> ⚠️ **Nota**: Non committare `environment.prod.ts` con credenziali reali. Usa variabili d'ambiente su Render.
 
 ## 🚀 Avvio
 
@@ -229,79 +227,18 @@ docker logs eshop-backend -f
 docker logs eshop-frontend -f
 ```
 
-**Nota:** Docker è utilizzato **solo per sviluppo locale**. Il deployment su Render non usa Docker ma i runtime nativi di Render.
+**Nota:** Docker è utilizzato **solo per sviluppo locale**.
 
-## 🚀 Deployment
+## 🚀 Build di produzione
 
-### Deploy automatico su Render
+La build di produzione compila con `environment.prod.ts`, che punta al backend locale/docker (`http://localhost:3001/api`):
 
-Questo progetto è configurato per il deployment automatico su [Render](https://render.com) tramite il file [`render.yaml`](render.yaml).
-
-#### Prerequisiti
-1. Account GitHub con repository del progetto
-2. Account Render (gratuito)
-3. Repository GitHub collegato a Render
-
-#### Setup Deploy (Una tantum)
-
-1. **Push del codice su GitHub:**
-   ```bash
-   git add .
-   git commit -m "Setup Render deployment"
-   git push origin main
-   ```
-
-2. **Crea Blueprint su Render:**
-   - Vai su [Render Dashboard](https://dashboard.render.com)
-   - Click su **New +** → **Blueprint**
-   - Collega il tuo repository GitHub
-   - Render leggerà automaticamente `render.yaml` e creerà:
-     - Database PostgreSQL (`e-shop-db`)
-     - Backend Rails API (`e-shop-api`)
-     - Frontend Angular Static Site (`e-shop-frontend`)
-
-3. **Configurazione variabili d'ambiente (Opzionale):**
-   - `SECRET_KEY_BASE`: generato automaticamente da Render
-   - `DATABASE_URL`: collegato automaticamente al database
-   - Per variabili aggiuntive (es. chiavi API), vai su **Environment** nel dashboard
-
-#### Deployment Automatico
-
-Ogni push su `main` trigghera automaticamente il deploy:
-
-1. **Backend (Rails API):**
-   - Build: `bundle install` + `rails db:migrate`
-   - Start: `rails server` su porta `$PORT`
-   - URL esempio: `https://e-shop-api.onrender.com`
-
-2. **Frontend (Angular Static Site):**
-   - Build: `npm install` + `npm run build`
-   - Serve: file statici da `dist/shop/browser`
-   - URL esempio: `https://e-shop-frontend.onrender.com`
-
-#### Nota importante
-⚠️ **Il piano gratuito di Render** mette in sleep i servizi dopo 15 minuti di inattività. Il primo accesso dopo il sleep richiede ~30 secondi per il "cold start".
-
-#### Troubleshooting
-
-- **Build fails:** Controlla i log su Render Dashboard → Service → Deploy Logs
-- **Database connection error:** Verifica che `DATABASE_URL` sia correttamente collegato
-- **CORS errors:** Aggiorna `config/initializers/cors.rb` nel backend con l'URL del frontend Render
-
-#### URL Produzione
-
-Dopo il deploy, le tue URL saranno:
-- **Frontend:** `https://e-shop-frontend.onrender.com`
-- **Backend API:** `https://e-shop-api.onrender.com/api`
-
-Aggiorna `src/environments/environment.production.ts` con l'URL del backend:
-
-```typescript
-export const environment = {
-  production: true,
-  apiUrl: 'https://e-shop-api.onrender.com/api'
-};
+```bash
+npm run build            # compila in dist/shop (SSR)
+npm run serve:ssr:shop   # serve l'app compilata con SSR su :4000
 ```
+
+In alternativa, lo stack completo (db + backend + frontend dev) si avvia con `docker compose up`.
 
 ## 📚 API Documentation
 
@@ -369,7 +306,6 @@ e-shop/
 │   ├── config/
 │   └── db/
 ├── docker-compose.yml
-├── render.yaml                   # Render Blueprint config
 ├── ARCHITETTURA.md              # Documentazione architettura
 └── README.md
 ```
@@ -387,7 +323,7 @@ Questo progetto implementa i requisiti delle [specifiche d'esame](Specifiche_Esa
 - ✅ Autenticazione JWT (non mockata)
 - ✅ Carrello persistente sincronizzato
 - ✅ Funzionalità avanzate: Admin panel, Dark mode, Galleria immagini
-- ✅ Deployment su Render con Blueprint automatico
+- ✅ Pipeline CI/CD con GitHub Actions: CI (test unit + e2e Playwright + lint + scan sicurezza) e DAST con OWASP ZAP
 
 ## 📄 Licenza
 
