@@ -8,7 +8,9 @@ Order.destroy_all
 CartItem.destroy_all
 Cart.destroy_all
 ProductTag.destroy_all
-Product.destroy_all
+# Products override destroy with soft delete, so use delete_all to clear them
+# physically (dependents are removed first above)
+Product.unscoped.delete_all
 Tag.destroy_all
 Category.destroy_all
 
