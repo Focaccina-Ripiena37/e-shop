@@ -3,28 +3,24 @@ class Api::UsersController < ApplicationController
 
   # GET /api/users/me - Get current user profile
   def me
-    render json: current_user.as_json(
-      only: [:id, :email, :first_name, :last_name, :date_of_birth, :gender, :street, :city, :zip, :country, :admin]
-    )
+    render json: current_user
   end
 
   # PATCH /api/users/me - Update current user profile
   def update
     if current_user.update(user_params)
-      render json: current_user.as_json(
-        only: [:id, :email, :first_name, :last_name, :date_of_birth, :gender, :street, :city, :zip, :country, :admin]
-      )
+      render json: current_user
     else
-      render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+      render_errors(current_user)
     end
   end
 
   # DELETE /api/users/me - Deactivate current user account (soft delete)
   def destroy
     if current_user.deactivate!
-      render json: { message: 'Account successfully deactivated' }, status: :ok
+      render json: { message: "Account successfully deactivated" }, status: :ok
     else
-      render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+      render_errors(current_user)
     end
   end
 

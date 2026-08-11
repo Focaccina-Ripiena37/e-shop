@@ -1,7 +1,7 @@
 class Api::Admin::TagsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin!
-  before_action :set_tag, only: [:destroy]
+  before_action :set_tag, only: [ :destroy ]
 
   # POST /api/admin/tags
   def create
@@ -10,7 +10,7 @@ class Api::Admin::TagsController < ApplicationController
     if tag.save
       render json: tag, status: :created
     else
-      render json: { errors: tag.errors.full_messages }, status: :unprocessable_entity
+      render_errors(tag)
     end
   end
 

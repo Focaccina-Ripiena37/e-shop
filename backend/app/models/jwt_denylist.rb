@@ -1,5 +1,8 @@
 class JwtDenylist < ApplicationRecord
-  include Devise::JWT::RevocationStrategies::Denylist
+  validates :jti, presence: true, uniqueness: true
 
-  self.table_name = 'jwt_denylists'
+  # True when a JWT identifier was revoked via logout
+  def self.denylisted?(jti)
+    exists?(jti: jti)
+  end
 end

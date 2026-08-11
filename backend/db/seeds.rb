@@ -15,7 +15,7 @@ Category.destroy_all
 # Create Categories
 puts "Creating categories..."
 categories = {}
-['Electronics', 'Clothing', 'Books', 'Home & Kitchen', 'Sports & Outdoors'].each do |name|
+[ 'Electronics', 'Clothing', 'Books', 'Home & Kitchen', 'Sports & Outdoors' ].each do |name|
   categories[name] = Category.create!(name: name)
 end
 puts "Created #{Category.count} categories"
@@ -68,7 +68,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['laptop'], tags['apple']]
+  [ tags['laptop'], tags['apple'] ]
 )
 
 create_product_with_tags(
@@ -86,7 +86,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['smartphone'], tags['apple']]
+  [ tags['smartphone'], tags['apple'] ]
 )
 
 create_product_with_tags(
@@ -105,7 +105,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['audio'], tags['wireless']]
+  [ tags['audio'], tags['wireless'] ]
 )
 
 create_product_with_tags(
@@ -124,7 +124,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['wearable'], tags['fitness']]
+  [ tags['wearable'], tags['fitness'] ]
 )
 
 create_product_with_tags(
@@ -143,7 +143,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['laptop'], tags['gaming'], tags['nvidia']]
+  [ tags['laptop'], tags['gaming'], tags['nvidia'] ]
 )
 
 create_product_with_tags(
@@ -162,7 +162,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['gpu'], tags['nvidia'], tags['gaming']]
+  [ tags['gpu'], tags['nvidia'], tags['gaming'] ]
 )
 
 create_product_with_tags(
@@ -179,7 +179,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['cpu'], tags['amd'], tags['gaming']]
+  [ tags['cpu'], tags['amd'], tags['gaming'] ]
 )
 
 create_product_with_tags(
@@ -198,7 +198,7 @@ create_product_with_tags(
     ]
   },
   categories['Electronics'],
-  [tags['pc-case'], tags['rgb'], tags['gaming']]
+  [ tags['pc-case'], tags['rgb'], tags['gaming'] ]
 )
 
 puts "Created 8 Electronics products"
@@ -223,7 +223,7 @@ create_product_with_tags(
     ]
   },
   categories['Clothing'],
-  [tags['jacket'], tags['denim']]
+  [ tags['jacket'], tags['denim'] ]
 )
 
 create_product_with_tags(
@@ -242,7 +242,7 @@ create_product_with_tags(
     ]
   },
   categories['Clothing'],
-  [tags['shoes'], tags['running']]
+  [ tags['shoes'], tags['running'] ]
 )
 
 create_product_with_tags(
@@ -260,7 +260,7 @@ create_product_with_tags(
     ]
   },
   categories['Clothing'],
-  [tags['tshirt'], tags['organic']]
+  [ tags['tshirt'], tags['organic'] ]
 )
 
 puts "Created 3 Clothing products"
@@ -283,7 +283,7 @@ create_product_with_tags(
     ]
   },
   categories['Books'],
-  [tags['book'], tags['programming']]
+  [ tags['book'], tags['programming'] ]
 )
 
 create_product_with_tags(
@@ -299,7 +299,7 @@ create_product_with_tags(
     ]
   },
   categories['Books'],
-  [tags['book'], tags['self-help']]
+  [ tags['book'], tags['self-help'] ]
 )
 
 create_product_with_tags(
@@ -317,7 +317,7 @@ create_product_with_tags(
     ]
   },
   categories['Books'],
-  [tags['book'], tags['fantasy'], tags['classic']]
+  [ tags['book'], tags['fantasy'], tags['classic'] ]
 )
 
 create_product_with_tags(
@@ -334,7 +334,7 @@ create_product_with_tags(
     ]
   },
   categories['Books'],
-  [tags['book'], tags['history'], tags['science']]
+  [ tags['book'], tags['history'], tags['science'] ]
 )
 
 puts "Created 4 Books"
@@ -356,7 +356,7 @@ create_product_with_tags(
     ]
   },
   categories['Home & Kitchen'],
-  [tags['home'], tags['kitchen'], tags['coffee']]
+  [ tags['home'], tags['kitchen'], tags['coffee'] ]
 )
 
 create_product_with_tags(
@@ -375,7 +375,7 @@ create_product_with_tags(
     ]
   },
   categories['Home & Kitchen'],
-  [tags['home'], tags['kitchen'], tags['cookware']]
+  [ tags['home'], tags['kitchen'], tags['cookware'] ]
 )
 
 create_product_with_tags(
@@ -395,7 +395,7 @@ create_product_with_tags(
     ]
   },
   categories['Home & Kitchen'],
-  [tags['home'], tags['lighting'], tags['design']]
+  [ tags['home'], tags['lighting'], tags['design'] ]
 )
 
 create_product_with_tags(
@@ -415,7 +415,7 @@ create_product_with_tags(
     ]
   },
   categories['Home & Kitchen'],
-  [tags['home'], tags['cleaning'], tags['robot']]
+  [ tags['home'], tags['cleaning'], tags['robot'] ]
 )
 
 create_product_with_tags(
@@ -433,7 +433,7 @@ create_product_with_tags(
     ]
   },
   categories['Home & Kitchen'],
-  [tags['home'], tags['wellness'], tags['aromatherapy']]
+  [ tags['home'], tags['wellness'], tags['aromatherapy'] ]
 )
 
 puts "Created 5 Home & Kitchen products"
@@ -456,7 +456,7 @@ create_product_with_tags(
     ]
   },
   categories['Sports & Outdoors'],
-  [tags['sports'], tags['outdoor'], tags['camping']]
+  [ tags['sports'], tags['outdoor'], tags['camping'] ]
 )
 
 create_product_with_tags(
@@ -476,7 +476,7 @@ create_product_with_tags(
     ]
   },
   categories['Sports & Outdoors'],
-  [tags['sports'], tags['cycling'], tags['bike']]
+  [ tags['sports'], tags['cycling'], tags['bike'] ]
 )
 
 create_product_with_tags(
@@ -495,7 +495,7 @@ create_product_with_tags(
     ]
   },
   categories['Sports & Outdoors'],
-  [tags['sports'], tags['yoga'], tags['fitness']]
+  [ tags['sports'], tags['yoga'], tags['fitness'] ]
 )
 
 create_product_with_tags(
@@ -514,7 +514,7 @@ create_product_with_tags(
     ]
   },
   categories['Sports & Outdoors'],
-  [tags['sports'], tags['fitness'], tags['weights']]
+  [ tags['sports'], tags['fitness'], tags['weights'] ]
 )
 
 puts "Created 4 Sports & Outdoors products"

@@ -1,7 +1,7 @@
 class Api::Admin::ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin!
-  before_action :set_product, only: [:update, :destroy, :restore]
+  before_action :set_product, only: [ :update, :destroy, :restore ]
 
   # GET /api/admin/products (include soft-deleted)
   def index
@@ -16,7 +16,7 @@ class Api::Admin::ProductsController < ApplicationController
     if product.save
       render json: product, status: :created
     else
-      render json: { errors: product.errors.full_messages }, status: :unprocessable_entity
+      render_errors(product)
     end
   end
 
@@ -25,16 +25,16 @@ class Api::Admin::ProductsController < ApplicationController
     if @product.update(product_params)
       render json: @product
     else
-      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+      render_errors(@product)
     end
   end
 
   # DELETE /api/admin/products/:id (Soft delete)
   def destroy
     if @product.destroy
-      render json: { message: 'Product soft deleted successfully' }, status: :ok
+      render json: { message: "Product soft deleted successfully" }, status: :ok
     else
-      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+      render_errors(@product)
     end
   end
 
@@ -43,7 +43,7 @@ class Api::Admin::ProductsController < ApplicationController
     if @product.restore
       render json: @product, status: :ok
     else
-      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+      render_errors(@product)
     end
   end
 

@@ -13,7 +13,7 @@ class Product < ApplicationRecord
 
   # Soft delete: show only non-deleted products
   default_scope { where(deleted_at: nil) }
-  
+
   # Scope to include deleted products (for admin/history)
   scope :with_deleted, -> { unscope(where: :deleted_at) }
   scope :only_deleted, -> { unscope(where: :deleted_at).where.not(deleted_at: nil) }
@@ -36,19 +36,19 @@ class Product < ApplicationRecord
   # Override as_json for Angular-compatible format
   def as_json(options = {})
     {
-      'id' => id.to_s,
-      'title' => title,
-      'description' => description,
-      'price' => price,
-      'originalPrice' => original_price,
-      'sale' => sale,
-      'thumbnail' => thumbnail,
-      'images' => images || [],
-      'createdAt' => created_at&.iso8601,
-      'deletedAt' => deleted_at&.iso8601,
-      'categoryId' => category_id&.to_s,
-      'category' => category&.as_json,
-      'tags' => tags.map(&:as_json)
+      "id" => id.to_s,
+      "title" => title,
+      "description" => description,
+      "price" => price,
+      "originalPrice" => original_price,
+      "sale" => sale,
+      "thumbnail" => thumbnail,
+      "images" => images || [],
+      "createdAt" => created_at&.iso8601,
+      "deletedAt" => deleted_at&.iso8601,
+      "categoryId" => category_id&.to_s,
+      "category" => category&.as_json,
+      "tags" => tags.map(&:as_json)
     }
   end
 end

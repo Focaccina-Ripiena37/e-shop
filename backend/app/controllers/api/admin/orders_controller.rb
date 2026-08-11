@@ -1,7 +1,7 @@
 class Api::Admin::OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin!
-  before_action :set_order, only: [:update]
+  before_action :set_order, only: [ :update ]
 
   # GET /api/admin/orders
   def index
@@ -9,7 +9,7 @@ class Api::Admin::OrdersController < ApplicationController
     render json: orders.as_json(
       include: {
         billing_address: {},
-        user: { only: [:id, :email, :active] },
+        user: { only: [ :id, :email, :active ] },
         order_items: {
           include: :product
         }
@@ -22,7 +22,7 @@ class Api::Admin::OrdersController < ApplicationController
     if @order.update(order_params)
       render json: @order
     else
-      render json: { errors: @order.errors.full_messages }, status: :unprocessable_entity
+      render_errors(@order)
     end
   end
 

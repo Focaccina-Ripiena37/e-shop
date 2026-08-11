@@ -26,16 +26,15 @@ class Api::OrdersController < ApplicationController
   end
 
   def create
-    cart = current_user.cart || current_user.create_cart
+    cart = current_user.cart!
 
     if cart.cart_items.empty?
-      return render json: { error: 'Cart is empty' }, status: :unprocessable_entity
+      return render json: { error: "Cart is empty" }, status: :unprocessable_entity
     end
 
     order = current_user.orders.new(order_params)
-    subtotal = cart.cart_items.sum { |item| item.quantity * item.unit_price }
-    order.total = subtotal + order.shipping_cost
-    order.status = 'pending'
+    order.total = cart.subtotal + order.shipping_cost
+    order.status = "pending"
 
     ActiveRecord::Base.transaction do
       order.save!
@@ -63,7 +62,7 @@ class Api::OrdersController < ApplicationController
       :first_name, :last_name, :email, :street, :city, :zip,
       :payment_method, :card_brand, :card_last4,
       :shipping_type, :shipping_cost,
-      billing_address_attributes: [:full_name, :street, :city, :zip, :country, :vat_number]
+      billing_address_attributes: [ :full_name, :street, :city, :zip, :country, :vat_number ]
     )
   end
 end

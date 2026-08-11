@@ -5,8 +5,8 @@ class Category < ApplicationRecord
 
   def as_json(options = {})
     {
-      'id' => id.to_s,
-      'name' => name
+      "id" => id.to_s,
+      "name" => name
     }
   end
 end

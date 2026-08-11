@@ -1,7 +1,6 @@
 class Order < ApplicationRecord
   belongs_to :user, optional: true  # Allow orders without user after account deactivation
   has_many :order_items, dependent: :destroy
-  has_many :products, through: :order_items
   has_one :billing_address, dependent: :destroy
 
   STATUSES = %w[pending processing shipped delivered cancelled paid].freeze
