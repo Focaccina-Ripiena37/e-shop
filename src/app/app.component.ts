@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header.components';
-import { AuthService } from './core/services/auth.service';
 import { CartService } from './core/services/cart.service';
 
 @Component({
@@ -11,12 +10,10 @@ import { CartService } from './core/services/cart.service';
   templateUrl: './app.html'
 })
 export class AppComponent implements OnInit {
-  private auth = inject(AuthService);
   private cart = inject(CartService);
 
   ngOnInit(): void {
-    if (this.auth.getToken()) {
-      this.cart.loadCart();
-    }
+    // Load the cart for both guests (localStorage) and authenticated users (server)
+    this.cart.loadCart();
   }
 }

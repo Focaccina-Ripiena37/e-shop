@@ -1,15 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { CartService } from './cart.service';
 import { CartItem } from '../models/cart-item';
+import { Product } from '../models/product';
 import { environment } from '../../../environments/environment';
 
 describe('CartService', () => {
     let service: CartService;
     let httpMock: HttpTestingController;
 
-    const makeProduct = (id: string, title: string, price: number) => ({
+    const makeProduct = (id: string, title: string, price: number): Product => ({
         id,
         title,
         description: '',
@@ -27,10 +29,13 @@ describe('CartService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
-            providers: [CartService]
+            providers: [CartService, provideRouter([])]
         });
         service = TestBed.inject(CartService);
         httpMock = TestBed.inject(HttpTestingController);
+        localStorage.clear();
+        // Authenticated by default so existing tests exercise the server path
+        localStorage.setItem('auth_token', 'test-jwt');
     });
 
     afterEach(() => {
@@ -59,7 +64,7 @@ describe('CartService', () => {
 
     describe('addToCart', () => {
         it('should POST to /cart/items and reload the cart', () => {
-            service.addToCart(103, 1).subscribe();
+            service.addToCart(makeProduct('103', 'New', 10), 1).subscribe();
 
             const postReq = httpMock.expectOne(`${environment.apiUrl}/cart/items`);
             expect(postReq.request.method).toBe('POST');
@@ -104,6 +109,70 @@ describe('CartService', () => {
             service.items$.subscribe(items => {
                 expect(items).toEqual([]);
             });
+        });
+    });
+
+    describe('guest cart (persisted in localStorage)', () => {
+        beforeEach(() => {
+            localStorage.removeItem('auth_token');
+        });
+
+        it('should restore persisted items without any HTTP call', () => {
+            localStorage.setItem('unimart_guest_cart', JSON.stringify(mockCartItems));
+
+            service.loadCart();
+
+            service.items$.subscribe(items => {
+                expect(items.length).toBe(2);
+                expect(items[0].product.title).toBe('Product 1');
+            });
+        });
+
+        it('addToCart should store locally without any HTTP call', () => {
+            service.addToCart(makeProduct('103', 'New', 5.5), 1).subscribe();
+
+            service.items$.subscribe(items => {
+                expect(items.length).toBe(1);
+                expect(items[0].product.title).toBe('New');
+                expect(items[0].unit_price).toBe('5.5');
+            });
+            expect(JSON.parse(localStorage.getItem('unimart_guest_cart')!)).toHaveLength(1);
+        });
+
+        it('addToCart should merge quantities for the same product', () => {
+            const product = makeProduct('103', 'New', 5.5);
+            service.addToCart(product, 2).subscribe();
+            service.addToCart(product, 3).subscribe();
+
+            service.items$.subscribe(items => {
+                expect(items.length).toBe(1);
+                expect(items[0].quantity).toBe(5);
+            });
+        });
+
+        it('updateQuantity should clamp quantity to a minimum of 1', () => {
+            service.addToCart(makeProduct('103', 'New', 5.5), 2).subscribe();
+            service.updateQuantity(103, 0).subscribe();
+
+            service.items$.subscribe(items => {
+                expect(items[0].quantity).toBe(1);
+            });
+        });
+
+        it('removeItem should delete the local item', () => {
+            service.addToCart(makeProduct('103', 'New', 5.5), 1).subscribe();
+            service.removeItem(103).subscribe();
+
+            service.items$.subscribe(items => {
+                expect(items.length).toBe(0);
+            });
+        });
+
+        it('clear should empty the persisted guest cart', () => {
+            service.addToCart(makeProduct('103', 'New', 5.5), 1).subscribe();
+            service.clear();
+
+            expect(JSON.parse(localStorage.getItem('unimart_guest_cart')!)).toEqual([]);
         });
     });
 });

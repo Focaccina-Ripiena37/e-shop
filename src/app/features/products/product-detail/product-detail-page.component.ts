@@ -78,8 +78,8 @@ export class ProductDetailPageComponent {
   }
 
   /** Add product to cart */
-  addToCart(productId: string): void {
-    this.cartService.addToCart(Number(productId), 1).subscribe({
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product, 1).subscribe({
       next: () => this.snackBar.open('Product added to cart!', 'OK', { duration: 3000 }),
       error: () => this.snackBar.open('Could not add to cart.', 'OK', { duration: 3000 })
     });

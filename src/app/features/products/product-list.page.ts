@@ -256,7 +256,7 @@ export class ProductListPage implements OnInit {
   }
 
   onAdd(p: Product): void {
-    this.cartService.addToCart(Number(p.id), 1).subscribe({
+    this.cartService.addToCart(p, 1).subscribe({
       next: () => this.snackBar.open('Product added to cart!', 'OK', { duration: 3000 }),
       error: () => this.snackBar.open('Please log in to add to cart.', 'OK', { duration: 3000 })
     });
