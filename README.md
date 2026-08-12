@@ -1,4 +1,8 @@
+<div align="center">
+
 # 🛍️ UniMart - E-Commerce Universitario
+
+*Applicazione e-commerce full-stack sviluppata per il corso di **Sistemi Web - UNIFE** (AA 2025/2026)*
 
 ![Angular](https://img.shields.io/badge/Angular-21.0-550080?style=for-the-badge&logo=angular&logoColor=white)
 ![Rails](https://img.shields.io/badge/Rails-8.1.1-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
@@ -7,7 +11,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-24.12-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
-**UniMart** è un'applicazione e-commerce full-stack sviluppata per il corso di **Sistemi Web - UNIFE** (AA 2025/2026).
+</div>
 
 ## 📋 Indice
 
