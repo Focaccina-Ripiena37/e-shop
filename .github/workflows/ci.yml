@@ -19,7 +19,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.10"
+          ruby-version: "3.3.14"
 
       - name: Install Ruby dependencies
         run: bundle install
@@ -44,7 +44,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.10"
+          ruby-version: "3.3.14"
 
       - name: Install Ruby dependencies
         run: bundle install
