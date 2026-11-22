@@ -7,7 +7,7 @@
 ![Angular](https://img.shields.io/badge/Angular-21.0-550080?style=for-the-badge&logo=angular&logoColor=white)
 ![Rails](https://img.shields.io/badge/Rails-8.1.1-CC0000?style=for-the-badge&logo=rubyonrails&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Ruby](https://img.shields.io/badge/Ruby-3.3.10-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
+![Ruby](https://img.shields.io/badge/Ruby-3.3.14-CC342D?style=for-the-badge&logo=ruby&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-24.12-339933?style=for-the-badge&logo=node.js&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
@@ -82,13 +82,13 @@
 | Angular Material 21.0 | Devise + JWT | SQLite (dev) |
 | RxJS 7.8 | ActiveRecord | |
 | TypeScript 5.9.2 | Puma 5.0+ | |
-| Node.js 24.12 | Ruby 3.3.10 | |
+| Node.js 24.12 | Ruby 3.3.14 | |
 
 ## 📋 Requisiti
 
 - **Node.js** >= 24.12
 - **npm** >= 11.6
-- **Ruby** >= 3.3.10
+- **Ruby** >= 3.3.14
 - **Rails** >= 8.1.1
 - **PostgreSQL** >= 14 (Linux/Mac/produzione)
 - **SQLite** (Windows - auto-installato)
@@ -129,7 +129,7 @@ docker exec eshop-backend bundle exec rails db:seed
 
 **Requisiti:**
 - Node.js >= 24.12
-- Ruby >= 3.3.10  
+- Ruby >= 3.3.14
 - PostgreSQL >= 14
 - File `.env` (fornito separatamente)
 
