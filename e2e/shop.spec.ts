@@ -125,8 +125,12 @@ test.describe('guest cart sync on login', () => {
     await page.getByRole('button', { name: 'Login' }).click();
 
     await expect(page.getByLabel('User menu')).toBeVisible();
+    await expect.poll(() => page.evaluate(() =>
+      localStorage.getItem('unimart_guest_cart')
+    )).toBe('[]');
     await page.goto('/cart');
     await expect(page.locator('.cart-item')).toHaveCount(1);
+    await expect(page.locator('.quantity-controls span')).toHaveText('1');
   });
 });
 
