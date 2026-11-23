@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   # Returns the user's cart, creating it on first access
   def cart!
-    cart || create_cart
+    cart || with_lock { reload_cart || create_cart! }
   end
 
   # Soft delete - deactivate account instead of destroying

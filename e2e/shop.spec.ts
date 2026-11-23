@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
 
 const USER = { email: 'marco.rossi@email.it', password: 'password123' };
 
@@ -115,12 +116,18 @@ test.describe('route guards', () => {
 });
 
 test.describe('guest cart sync on login', () => {
-  test('moves the localStorage guest cart to the server cart after login', async ({ page }) => {
+  test('moves the localStorage guest cart to the server cart after login', async ({ page, request }) => {
+    const email = `guest-cart-${randomUUID()}@example.test`;
+    const signup = await request.post('http://localhost:3001/api/signup', {
+      data: { user: { email, password: USER.password, password_confirmation: USER.password } }
+    });
+    expect(signup.status()).toBe(201);
+
     await clearAuth(page);
     await addFirstProduct(page);
 
     await page.getByRole('link', { name: 'Login' }).click();
-    await page.getByLabel('Email').fill(USER.email);
+    await page.getByLabel('Email').fill(email);
     await page.getByLabel('Password').fill(USER.password);
     await page.getByRole('button', { name: 'Login' }).click();
 
