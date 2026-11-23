@@ -129,7 +129,7 @@ jobs:
           echo "Seed failed" && exit 1
 
       - name: Run e2e tests
-        run: E2E_NO_WEBSERVER=1 npm run test:e2e
+        run: E2E_NO_WEBSERVER=1 npm run test:e2e -- --fail-on-flaky-tests
 
       - name: Upload Playwright report
         if: always()
