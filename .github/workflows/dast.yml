@@ -23,20 +23,27 @@ jobs:
           echo "JWT_SECRET_KEY=$jwt_key" >> "$GITHUB_ENV"
 
       - name: Boot database and backend
-        run: docker compose up -d --wait db backend
+        run: |
+          docker compose up -d --wait db backend
+          curl --fail --silent --show-error --retry 20 --retry-connrefused \
+            --retry-delay 2 --max-time 5 http://localhost:3001/up
 
       - name: Run OWASP ZAP baseline scan against the API
         run: |
-          docker run --rm --network eshop-network -t ghcr.io/zaproxy/zaproxy:stable \
-            zap-baseline.py -t http://backend:3001 \
-            -J zap-results.json -w zap-report.md || true
+          install -d -m 0777 "$RUNNER_TEMP/zap-reports"
+          docker run --rm --network eshop-network \
+            -v "$RUNNER_TEMP/zap-reports:/zap/wrk:rw" \
+            -t ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py -t http://backend:3001/api/products -I \
+            -J zap-results.json -w zap-report.md
 
       - name: Upload ZAP report
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: zap-report
-          path: zap-report.md
+          path: ${{ runner.temp }}/zap-reports/
+          if-no-files-found: error
 
       - name: Stop services
         if: always()
