@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.1"
 
 # Database adapters - both included, Rails auto-selects based on database.yml
-gem "pg", "~> 1.1"        # PostgreSQL (Linux/Mac)
+gem "pg", "~> 1.7"        # PostgreSQL (Linux/Mac)
 gem "sqlite3", "~> 2.4"   # SQLite (Windows)
 
 # Use the Puma web server [https://github.com/puma/puma]

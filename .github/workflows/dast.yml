@@ -14,12 +14,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
+
+      - name: Generate a JWT signing key for this test run
+        run: |
+          jwt_key="$(openssl rand -hex 32)"
+          echo "::add-mask::$jwt_key"
+          echo "JWT_SECRET_KEY=$jwt_key" >> "$GITHUB_ENV"
 
       - name: Boot database and backend
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: docker compose up -d --wait db backend
 
       - name: Run OWASP ZAP baseline scan against the API
@@ -30,14 +33,11 @@ jobs:
 
       - name: Upload ZAP report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: zap-report
           path: zap-report.md
 
       - name: Stop services
         if: always()
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: docker compose down -v

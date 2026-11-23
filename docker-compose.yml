@@ -30,7 +30,7 @@ services:
       RAILS_ENV: development
       DATABASE_URL: postgres://eshop:eshop_password@db:5432/eshop_development
       DB_HOST: db
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?Set RAILS_MASTER_KEY in the root .env file}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:-}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:?Set JWT_SECRET_KEY in the root .env file}
     volumes:
       - ./backend:/app
